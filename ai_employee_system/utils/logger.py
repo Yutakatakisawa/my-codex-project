@@ -53,10 +53,12 @@ def setup_logger(level: str = "INFO") -> None:
         retention="7 days",
     )
 
-    # File handler - per agent
+    # File handler - agent logs (all agents in one file)
+    agents_dir = LOGS_DIR / "agents"
+    agents_dir.mkdir(parents=True, exist_ok=True)
     logger.add(
-        LOGS_DIR / "agents" / "{extra[agent]}.log",
-        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message}",
+        LOGS_DIR / "agents" / "all_agents.log",
+        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {extra[agent]:>12} | {message}",
         level="DEBUG",
         rotation="5 MB",
         retention="3 days",
