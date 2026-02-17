@@ -20,7 +20,8 @@ project/
 │   └── taro.md        # Taro のシステムプロンプト
 ├── outputs/           # 生成された記事の保存先
 │   └── .gitkeep
-├── run.py             # メイン実行スクリプト
+├── run.py             # メイン実行スクリプト（記事生成）
+├── preview.py         # プレビューツール（HTML変換＆ブラウザ表示）
 ├── requirements.txt   # Python依存パッケージ
 ├── .gitignore
 └── README.md          # このファイル
@@ -104,6 +105,30 @@ python run.py --theme "札幌市 雪害 屋根修理"
 ```powershell
 python run.py --theme "名古屋市 屋根塗装" --model gpt-4o-mini
 ```
+
+## 記事のプレビュー
+
+生成された記事をブラウザで確認できます。
+
+### 最新の記事をプレビュー
+
+```powershell
+python preview.py
+```
+
+### 記事一覧を表示
+
+```powershell
+python preview.py --list
+```
+
+### 特定の記事をプレビュー
+
+```powershell
+python preview.py --file "盛岡市_雨漏り_修理_20260211_143022.md"
+```
+
+記事はきれいにスタイリングされた HTML に変換され、デフォルトブラウザで自動的に開きます。外部ライブラリ不要（Python 標準ライブラリのみ使用）です。
 
 ## 処理フロー
 

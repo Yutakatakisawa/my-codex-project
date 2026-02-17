@@ -226,6 +226,10 @@ def run_pipeline(theme: str) -> None:
     preview = article_content[:500]
     print(f"\n--- 記事プレビュー（先頭500文字）---\n{preview}\n...")
 
+    print("\n[ヒント] ブラウザで記事をプレビューするには:")
+    print(f'  python preview.py')
+    print(f'  python preview.py --file "{output_path.name}"')
+
 
 # ============================================================
 # エントリポイント
