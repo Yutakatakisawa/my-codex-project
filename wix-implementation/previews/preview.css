@@ -1,0 +1,269 @@
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --muted: #64748b;
+  --line: #e5e7eb;
+  --primary: #1a365d;
+  --primary-2: #2b5ea7;
+  --accent: #22c55e;
+  --danger: #dc2626;
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 16px 56px;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  border-radius: var(--radius);
+  color: #fff;
+  padding: 28px 24px;
+  box-shadow: 0 12px 28px rgba(26, 54, 93, 0.22);
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 34px;
+  line-height: 1.25;
+}
+
+.hero p {
+  margin: 0;
+  opacity: 0.94;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-top: 16px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.panel h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+
+.basic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.input,
+.select,
+.option {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.input,
+.select {
+  padding: 11px 12px;
+}
+
+.question {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.question:last-child {
+  margin-bottom: 0;
+}
+
+.q-title {
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.option-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.option {
+  padding: 10px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+}
+
+.option .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1.5px solid #9ca3af;
+  flex: 0 0 auto;
+}
+
+.footer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.button {
+  border: 0;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 16px;
+  width: 100%;
+}
+
+.result-head {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 24px 22px;
+}
+
+.result-type {
+  margin: 0 0 8px;
+  font-size: 32px;
+  line-height: 1.25;
+}
+
+.result-meta {
+  margin: 0;
+  font-size: 17px;
+  opacity: 0.95;
+}
+
+.result-sub {
+  margin-top: 8px;
+  opacity: 0.92;
+  font-size: 16px;
+}
+
+.lead {
+  margin: 0 0 8px;
+  font-size: 21px;
+  color: #0f172a;
+}
+
+.body {
+  margin: 0;
+  color: #334155;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.action-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #111827;
+  line-height: 1.9;
+}
+
+.line-box {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+}
+
+.line-lead {
+  margin: 0 0 12px;
+  color: #14532d;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.line-btn {
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  padding: 14px 16px;
+  width: 100%;
+}
+
+.line-note {
+  margin: 10px 0 0;
+  color: #166534;
+  font-size: 13px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #fff;
+  color: #334155;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 16px 12px 40px;
+  }
+
+  .hero h1,
+  .result-type {
+    font-size: 25px;
+  }
+
+  .hero p,
+  .result-meta,
+  .result-sub,
+  .body,
+  .line-lead {
+    font-size: 14px;
+  }
+
+  .basic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .option-row {
+    grid-template-columns: 1fr;
+  }
+
+  .q-title {
+    font-size: 15px;
+  }
+}
