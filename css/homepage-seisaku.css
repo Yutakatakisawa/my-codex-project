@@ -324,6 +324,12 @@ a {
   color: #166534;
 }
 
+.mini a {
+  color: #166534;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
 .footer-note {
   margin-top: 16px;
   color: var(--muted);

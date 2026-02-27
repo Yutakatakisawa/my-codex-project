@@ -1,5 +1,6 @@
 (() => {
   const LINE_ADD_FRIEND_URL = "https://lin.ee/REPLACE_ME";
+  const BOOKING_URL = "https://calendly.com/REPLACE_ME/30min";
   const STORAGE_KEY = "shokuninWebDiagnoses";
 
   const CATEGORY_CONFIG = [
@@ -307,7 +308,12 @@
       "area",
       "score100",
       "resultType",
-      "weakestCategory"
+      "weakestCategory",
+      "landingPath",
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content"
     ];
     const body = rows.map((row) =>
       headers
@@ -344,6 +350,21 @@
       el.setAttribute("rel", "noopener noreferrer");
     });
 
+    const bookingLinks = document.querySelectorAll("[data-booking-link]");
+    bookingLinks.forEach((el) => {
+      el.setAttribute("href", BOOKING_URL);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const utm = {
+      utm_source: urlParams.get("utm_source") || "",
+      utm_medium: urlParams.get("utm_medium") || "",
+      utm_campaign: urlParams.get("utm_campaign") || "",
+      utm_content: urlParams.get("utm_content") || ""
+    };
+
     const submitBtn = document.getElementById("submitBtn");
     submitBtn.addEventListener("click", () => {
       hideError();
@@ -377,6 +398,8 @@
         score100,
         resultType: resultType.id,
         weakestCategory: weakest.label,
+        landingPath: window.location.pathname,
+        ...utm,
         ...answers
       };
       saveRecord(record);
