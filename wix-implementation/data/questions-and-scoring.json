@@ -1,0 +1,302 @@
+{
+  "version": "2026-02-18",
+  "title": "職人WEB集客診断",
+  "questionCount": 20,
+  "scoring": {
+    "perOption": {
+      "A": 3,
+      "B": 2,
+      "C": 1,
+      "D": 0
+    },
+    "maxRawScore": 60,
+    "score100Formula": "round(totalRawScore / 60 * 100)",
+    "weakestCategoryTieBreakOrder": [
+      "funnel",
+      "discoverability",
+      "trust",
+      "followup",
+      "operations"
+    ]
+  },
+  "categories": [
+    {
+      "key": "discoverability",
+      "label": "見つかりやすさ",
+      "questionIds": ["q1", "q2", "q3", "q4"]
+    },
+    {
+      "key": "trust",
+      "label": "信頼性",
+      "questionIds": ["q5", "q6", "q7", "q8"]
+    },
+    {
+      "key": "funnel",
+      "label": "導線",
+      "questionIds": ["q9", "q10", "q11", "q12"]
+    },
+    {
+      "key": "followup",
+      "label": "追客",
+      "questionIds": ["q13", "q14", "q15", "q16"]
+    },
+    {
+      "key": "operations",
+      "label": "運用継続",
+      "questionIds": ["q17", "q18", "q19", "q20"]
+    }
+  ],
+  "resultTypes": [
+    {
+      "id": "D",
+      "label": "Type D：緊急改善型",
+      "scoreRange": { "min": 0, "max": 39 },
+      "status": "まず土台が未整備。最短で導線を作る段階"
+    },
+    {
+      "id": "C",
+      "label": "Type C：土台再構築型",
+      "scoreRange": { "min": 40, "max": 64 },
+      "status": "方向性は正しいが、成果が出る手前で止まっている"
+    },
+    {
+      "id": "B",
+      "label": "Type B：伸びしろ加速型",
+      "scoreRange": { "min": 65, "max": 84 },
+      "status": "問い合わせ増加目前。改善の優先順位が鍵"
+    },
+    {
+      "id": "A",
+      "label": "Type A：自動集客準備完了型",
+      "scoreRange": { "min": 85, "max": 100 },
+      "status": "仕組み化フェーズ。自動化で安定受注へ"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "category": "discoverability",
+      "question": "自社名で検索したとき、ホームページは表示されますか？",
+      "options": [
+        { "key": "A", "text": "1ページ目の上位に出る", "score": 3 },
+        { "key": "B", "text": "1ページ目には出る", "score": 2 },
+        { "key": "C", "text": "2ページ目以降", "score": 1 },
+        { "key": "D", "text": "出ない / わからない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q2",
+      "category": "discoverability",
+      "question": "「地域名＋業種（例: 屋根修理 ○○市）」で検索したときは？",
+      "options": [
+        { "key": "A", "text": "3位以内", "score": 3 },
+        { "key": "B", "text": "10位以内", "score": 2 },
+        { "key": "C", "text": "11位以下", "score": 1 },
+        { "key": "D", "text": "対策していない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q3",
+      "category": "discoverability",
+      "question": "Googleビジネスプロフィールの運用状況は？",
+      "options": [
+        { "key": "A", "text": "週1以上で投稿・写真更新", "score": 3 },
+        { "key": "B", "text": "月1程度更新", "score": 2 },
+        { "key": "C", "text": "登録のみ", "score": 1 },
+        { "key": "D", "text": "未登録", "score": 0 }
+      ]
+    },
+    {
+      "id": "q4",
+      "category": "discoverability",
+      "question": "施工事例やブログ更新頻度は？",
+      "options": [
+        { "key": "A", "text": "週1以上", "score": 3 },
+        { "key": "B", "text": "月1〜2回", "score": 2 },
+        { "key": "C", "text": "3ヶ月に1回以下", "score": 1 },
+        { "key": "D", "text": "ほぼ更新していない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q5",
+      "category": "trust",
+      "question": "サイトに掲載している施工事例数は？",
+      "options": [
+        { "key": "A", "text": "20件以上", "score": 3 },
+        { "key": "B", "text": "10〜19件", "score": 2 },
+        { "key": "C", "text": "1〜9件", "score": 1 },
+        { "key": "D", "text": "0件", "score": 0 }
+      ]
+    },
+    {
+      "id": "q6",
+      "category": "trust",
+      "question": "施工事例の質（写真・説明）は？",
+      "options": [
+        { "key": "A", "text": "Before/After＋説明あり", "score": 3 },
+        { "key": "B", "text": "写真＋簡単説明あり", "score": 2 },
+        { "key": "C", "text": "写真だけ", "score": 1 },
+        { "key": "D", "text": "ほぼない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q7",
+      "category": "trust",
+      "question": "お客様の声（口コミ）掲載は？",
+      "options": [
+        { "key": "A", "text": "10件以上", "score": 3 },
+        { "key": "B", "text": "3〜9件", "score": 2 },
+        { "key": "C", "text": "1〜2件", "score": 1 },
+        { "key": "D", "text": "なし", "score": 0 }
+      ]
+    },
+    {
+      "id": "q8",
+      "category": "trust",
+      "question": "代表者プロフィールの充実度は？",
+      "options": [
+        { "key": "A", "text": "顔写真・経歴・資格・対応地域あり", "score": 3 },
+        { "key": "B", "text": "顔写真と簡単な紹介あり", "score": 2 },
+        { "key": "C", "text": "会社名と電話のみ", "score": 1 },
+        { "key": "D", "text": "ほぼ情報なし", "score": 0 }
+      ]
+    },
+    {
+      "id": "q9",
+      "category": "funnel",
+      "question": "問い合わせ手段は何を置いていますか？",
+      "options": [
+        { "key": "A", "text": "電話・LINE・フォームの3つ", "score": 3 },
+        { "key": "B", "text": "2つある", "score": 2 },
+        { "key": "C", "text": "1つだけ", "score": 1 },
+        { "key": "D", "text": "わかりづらい / ない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q10",
+      "category": "funnel",
+      "question": "スマホで電話しやすい設計ですか？",
+      "options": [
+        { "key": "A", "text": "画面下に固定電話ボタン", "score": 3 },
+        { "key": "B", "text": "ヘッダーに電話番号あり", "score": 2 },
+        { "key": "C", "text": "ページ下だけに記載", "score": 1 },
+        { "key": "D", "text": "なし", "score": 0 }
+      ]
+    },
+    {
+      "id": "q11",
+      "category": "funnel",
+      "question": "問い合わせフォームの入力負担は？",
+      "options": [
+        { "key": "A", "text": "5項目以下", "score": 3 },
+        { "key": "B", "text": "6〜8項目", "score": 2 },
+        { "key": "C", "text": "9項目以上", "score": 1 },
+        { "key": "D", "text": "フォームがない / 動かない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q12",
+      "category": "funnel",
+      "question": "問い合わせ後の返信速度は？",
+      "options": [
+        { "key": "A", "text": "自動返信＋24時間以内返信", "score": 3 },
+        { "key": "B", "text": "48時間以内", "score": 2 },
+        { "key": "C", "text": "3日以上かかる", "score": 1 },
+        { "key": "D", "text": "返信漏れがある", "score": 0 }
+      ]
+    },
+    {
+      "id": "q13",
+      "category": "followup",
+      "question": "LINE公式アカウントの活用状況は？",
+      "options": [
+        { "key": "A", "text": "運用中（定期配信あり）", "score": 3 },
+        { "key": "B", "text": "開設済みだが配信少ない", "score": 2 },
+        { "key": "C", "text": "準備中", "score": 1 },
+        { "key": "D", "text": "未開設", "score": 0 }
+      ]
+    },
+    {
+      "id": "q14",
+      "category": "followup",
+      "question": "見積提出後のフォローは？",
+      "options": [
+        { "key": "A", "text": "自動で3回以上フォロー", "score": 3 },
+        { "key": "B", "text": "手動で1〜2回", "score": 2 },
+        { "key": "C", "text": "気が向いたときだけ", "score": 1 },
+        { "key": "D", "text": "ほぼしない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q15",
+      "category": "followup",
+      "question": "過去顧客への再アプローチは？",
+      "options": [
+        { "key": "A", "text": "月1で実施", "score": 3 },
+        { "key": "B", "text": "季節ごとに実施", "score": 2 },
+        { "key": "C", "text": "年1回程度", "score": 1 },
+        { "key": "D", "text": "していない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q16",
+      "category": "followup",
+      "question": "問い合わせ情報の管理方法は？",
+      "options": [
+        { "key": "A", "text": "一元管理（CRM/シート）", "score": 3 },
+        { "key": "B", "text": "メモで管理", "score": 2 },
+        { "key": "C", "text": "頭の中で管理", "score": 1 },
+        { "key": "D", "text": "管理していない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q17",
+      "category": "operations",
+      "question": "月次で数字を確認していますか？",
+      "options": [
+        { "key": "A", "text": "流入・問合せ・成約を毎月確認", "score": 3 },
+        { "key": "B", "text": "問合せだけ確認", "score": 2 },
+        { "key": "C", "text": "たまに確認", "score": 1 },
+        { "key": "D", "text": "見ていない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q18",
+      "category": "operations",
+      "question": "SNS発信の継続状況は？",
+      "options": [
+        { "key": "A", "text": "週3回以上", "score": 3 },
+        { "key": "B", "text": "週1回", "score": 2 },
+        { "key": "C", "text": "月1回", "score": 1 },
+        { "key": "D", "text": "ほぼ発信していない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q19",
+      "category": "operations",
+      "question": "施工写真・動画の整理は？",
+      "options": [
+        { "key": "A", "text": "毎週整理して保存", "score": 3 },
+        { "key": "B", "text": "月1回整理", "score": 2 },
+        { "key": "C", "text": "不定期", "score": 1 },
+        { "key": "D", "text": "ほぼ整理していない", "score": 0 }
+      ]
+    },
+    {
+      "id": "q20",
+      "category": "operations",
+      "question": "Web運用の担当は決まっていますか？",
+      "options": [
+        { "key": "A", "text": "担当者が明確（本人/外注）", "score": 3 },
+        { "key": "B", "text": "なんとか回している", "score": 2 },
+        { "key": "C", "text": "忙しいと止まる", "score": 1 },
+        { "key": "D", "text": "完全に止まっている", "score": 0 }
+      ]
+    }
+  ],
+  "lineCta": {
+    "headline": "あなた専用の7日改善プランをLINEで無料配布中",
+    "buttonLabel": "LINEで受け取る（無料）",
+    "note": "売り込みなし / いつでもブロック可能 / 登録後に「診断」と送信"
+  }
+}

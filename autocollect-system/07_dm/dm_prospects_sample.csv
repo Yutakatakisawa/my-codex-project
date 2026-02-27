@@ -1,0 +1,11 @@
+prospect_id,name,business_type,prefecture,city,channel,pain_point,last_contact_days,follower_count,website_status,reply_optout
+P001,佐藤屋根店,屋根屋,岩手県,盛岡市,x,問い合わせが少ない,2,1800,あり,false
+P002,田中塗装,塗装屋,宮城県,仙台市,instagram,元請け依存,10,2400,あり,false
+P003,鈴木外構,外構業者,福岡県,福岡市,x,更新が止まっている,25,980,なし,false
+P004,高橋建装,塗装屋,北海道,札幌市,instagram,広告が高い,5,3100,あり,false
+P005,斎藤工務店,一人親方,大阪府,大阪市,line,問い合わせが少ない,40,0,あり,false
+P006,中村板金,屋根屋,愛知県,名古屋市,x,フォーム離脱が多い,15,1200,あり,false
+P007,伊藤リフォーム,外構業者,東京都,新宿区,instagram,地域集客が弱い,6,4500,あり,false
+P008,小林塗装,塗装屋,神奈川県,横浜市,x,SNS反応が低い,30,700,なし,false
+P009,吉田ホーム,一人親方,広島県,広島市,line,見積後の追客不足,18,0,あり,false
+P010,山本工業,屋根屋,沖縄県,那覇市,instagram,問い合わせ導線不足,12,1500,あり,false
