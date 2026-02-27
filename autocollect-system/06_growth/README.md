@@ -7,7 +7,9 @@
 - `referral_engine_kit.md`：紹介エンジン運用
 - `lost_lead_reactivation.md`：失注掘り起こし施策
 - `ab_test_backlog.csv`：ABテスト候補12件
-- `city_expansion_list.csv`：地域拡張候補
+- `city_expansion_list.csv`：地域拡張候補（小規模）
+- `national_city_expansion_list.csv`：全国47都道府県対応
+- `national_rollout_180days.md`：全国展開ロードマップ
 - `templates/area_page_template.md`：地域ページテンプレ
 
 ## まずやること（即日）

@@ -18,7 +18,8 @@ autocollect-system/
 ├── 03_sales/         # 販売導線（診断、LINE、LP、クロージング）
 ├── 04_ai/            # AIエージェント設計 + 自動化スクリプト
 ├── 05_execution/     # 90日ロードマップ + KPI運用
-└── 06_growth/        # 増幅装置（MEO・紹介・失注回収・ABテスト）
+├── 06_growth/        # 増幅装置（MEO・紹介・失注回収・ABテスト）
+└── 07_dm/            # DM自動送信（キュー生成・Webhook連携）
 ```
 
 ---
@@ -52,9 +53,12 @@ python3 scripts/run_pipeline.py \
   --calendar ../02_seo/content_calendar_30.csv \
   --leads data/leads_sample.csv \
   --metrics data/metrics_weekly_sample.csv \
-  --cities ../06_growth/city_expansion_list.csv \
+  --cities ../06_growth/national_city_expansion_list.csv \
   --area-template ../06_growth/templates/area_page_template.md \
-  --ab-tests ../06_growth/ab_test_backlog.csv
+  --ab-tests ../06_growth/ab_test_backlog.csv \
+  --dm-prospects ../07_dm/dm_prospects_sample.csv \
+  --dm-templates ../07_dm/dm_templates.json \
+  --dm-dry-run
 ```
 
 実行後に以下が生成されます。
@@ -64,4 +68,7 @@ python3 scripts/run_pipeline.py \
 - `outputs/weekly_report.md`
 - `outputs/area_pages/*.md`
 - `outputs/ab_test_priority.md`
+- `outputs/dm_queue.csv`
+- `outputs/dm_preview.md`
+- `outputs/dm_send_results.csv`
 

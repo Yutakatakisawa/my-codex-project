@@ -1,4 +1,4 @@
-# {city}の職人向けホームページ制作
+# {prefecture}{city}の職人向けホームページ制作
 
 ## こんな悩みはありませんか？
 
@@ -8,7 +8,7 @@
 
 ---
 
-## {city}で選ばれるための3ポイント
+## {prefecture}{city}で選ばれるための3ポイント
 
 1. 地域名を含む施工事例を増やす
 2. 電話・LINE・フォームの3導線を明確にする
@@ -34,7 +34,15 @@
 
 ## 地域キーワード
 
-- {keyword_prefix} {city}
-- 職人 ホームページ制作 {city}
-- 建設業 集客 {city}
+- {keyword_prefix} {prefecture} {city}
+- 工務店 ホームページ制作 {prefecture} {city}
+- 建設業 集客 {prefecture} {city}
+
+---
+
+## エリア情報
+
+- 都道府県: {prefecture}
+- 市区町村: {city}
+- 地方区分: {region}
 

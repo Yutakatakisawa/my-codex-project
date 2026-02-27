@@ -15,8 +15,13 @@ def load_cities(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(f))
 
 
-def slugify(city: str) -> str:
-    return city.replace(" ", "").replace("　", "")
+def slugify(text: str) -> str:
+    return (
+        text.replace(" ", "")
+        .replace("　", "")
+        .replace("/", "-")
+        .replace("\\", "-")
+    )
 
 
 def render(template: str, row: dict[str, str]) -> str:
@@ -24,11 +29,13 @@ def render(template: str, row: dict[str, str]) -> str:
     prefecture = row.get("prefecture", "").strip()
     keyword_prefix = row.get("keyword_prefix", "").strip()
     priority = row.get("priority", "").strip()
+    region = row.get("region", "").strip()
     return template.format(
         city=city,
         prefecture=prefecture,
         keyword_prefix=keyword_prefix,
         priority=priority,
+        region=region,
     )
 
 
@@ -47,9 +54,10 @@ def main() -> None:
     created = 0
     for row in cities:
         city = row.get("city", "").strip()
+        prefecture = row.get("prefecture", "").strip()
         if not city:
             continue
-        filename = f"area-{slugify(city)}.md"
+        filename = f"area-{slugify(prefecture)}-{slugify(city)}.md"
         (outdir / filename).write_text(render(template_text, row), encoding="utf-8")
         created += 1
 

@@ -6,6 +6,8 @@
 3) 週次レポート生成
 4) 地域ページ生成（任意）
 5) ABテスト優先順位算出（任意）
+6) DMキュー生成（任意）
+7) DM送信（任意 / dry-run可）
 """
 
 from __future__ import annotations
@@ -33,6 +35,10 @@ def main() -> None:
     parser.add_argument("--area-template")
     parser.add_argument("--ab-tests")
     parser.add_argument("--ab-top", type=int, default=8)
+    parser.add_argument("--dm-prospects")
+    parser.add_argument("--dm-templates")
+    parser.add_argument("--dm-webhook-url")
+    parser.add_argument("--dm-dry-run", action="store_true")
     parser.add_argument("--output-root", default="outputs")
     args = parser.parse_args()
 
@@ -43,6 +49,9 @@ def main() -> None:
     weekly_report = root / "weekly_report.md"
     areas_dir = root / "area_pages"
     ab_report = root / "ab_test_priority.md"
+    dm_queue = root / "dm_queue.csv"
+    dm_preview = root / "dm_preview.md"
+    dm_send_results = root / "dm_send_results.csv"
     root.mkdir(parents=True, exist_ok=True)
 
     run(
@@ -106,6 +115,37 @@ def main() -> None:
             ]
         )
 
+    if args.dm_prospects and args.dm_templates:
+        run(
+            [
+                sys.executable,
+                str(script_dir / "build_dm_queue.py"),
+                "--prospects",
+                str(Path(args.dm_prospects).resolve()),
+                "--templates",
+                str(Path(args.dm_templates).resolve()),
+                "--output",
+                str(dm_queue),
+                "--preview",
+                str(dm_preview),
+            ]
+        )
+
+        if args.dm_webhook_url or args.dm_dry_run:
+            command = [
+                sys.executable,
+                str(script_dir / "send_dm_webhook.py"),
+                "--queue",
+                str(dm_queue),
+                "--output",
+                str(dm_send_results),
+            ]
+            if args.dm_webhook_url:
+                command.extend(["--webhook-url", args.dm_webhook_url])
+            if args.dm_dry_run:
+                command.append("--dry-run")
+            run(command)
+
     print("pipeline_done=true")
     print(f"briefs_dir={briefs_dir}")
     print(f"leads_scored={scored_leads}")
@@ -114,6 +154,11 @@ def main() -> None:
         print(f"area_pages={areas_dir}")
     if args.ab_tests:
         print(f"ab_report={ab_report}")
+    if args.dm_prospects and args.dm_templates:
+        print(f"dm_queue={dm_queue}")
+        print(f"dm_preview={dm_preview}")
+    if args.dm_webhook_url or args.dm_dry_run:
+        print(f"dm_send_results={dm_send_results}")
 
 
 if __name__ == "__main__":
