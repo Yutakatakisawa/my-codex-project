@@ -29,10 +29,14 @@
 ```
 /
 ├── index.html          # メインHTML
+├── homepageseisaku.html # 職人WEB制作の診断ページ
 ├── css/
-│   └── style.css       # スタイルシート
+│   ├── style.css       # メインスタイルシート
+│   └── homepage-seisaku.css # 診断ページ用スタイル
 ├── js/
-│   └── main.js         # JavaScript
+│   ├── main.js         # メインJavaScript
+│   └── homepage-seisaku.js # 診断ページ用JavaScript
+├── autocollect-system/ # 自動集客システム実行パック
 └── README.md           # このファイル
 ```
 
