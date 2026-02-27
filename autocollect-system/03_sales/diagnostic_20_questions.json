@@ -1,0 +1,47 @@
+{
+  "title": "職人WEB集客診断",
+  "version": "2026-02-18",
+  "scoring": {
+    "A": 3,
+    "B": 2,
+    "C": 1,
+    "D": 0,
+    "formula": "round(sum(scores)/60*100)"
+  },
+  "categories": [
+    { "id": "discoverability", "label": "見つかりやすさ", "range": [1, 4] },
+    { "id": "trust", "label": "信頼性", "range": [5, 8] },
+    { "id": "funnel", "label": "導線", "range": [9, 12] },
+    { "id": "followup", "label": "追客", "range": [13, 16] },
+    { "id": "operations", "label": "運用継続", "range": [17, 20] }
+  ],
+  "tie_break": ["funnel", "discoverability", "trust", "followup", "operations"],
+  "result_types": [
+    { "id": "D", "min": 0, "max": 39, "label": "緊急改善型" },
+    { "id": "C", "min": 40, "max": 64, "label": "土台再構築型" },
+    { "id": "B", "min": 65, "max": 84, "label": "伸びしろ加速型" },
+    { "id": "A", "min": 85, "max": 100, "label": "自動集客準備完了型" }
+  ],
+  "questions": [
+    { "id": "q1", "text": "自社名検索でサイトが表示されますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q2", "text": "地域名＋業種検索で表示されますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q3", "text": "Googleビジネスプロフィールを更新していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q4", "text": "施工事例やブログを更新していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q5", "text": "施工事例を十分に掲載していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q6", "text": "施工事例に説明文を入れていますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q7", "text": "お客様の声を掲載していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q8", "text": "代表者プロフィールが充実していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q9", "text": "電話・LINE・フォームの3導線がありますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q10", "text": "スマホで電話しやすい設計ですか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q11", "text": "フォーム項目は最小化されていますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q12", "text": "問い合わせ返信は24〜48時間以内ですか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q13", "text": "LINE公式を運用していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q14", "text": "見積提出後に追客していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q15", "text": "既存顧客に定期連絡していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q16", "text": "問い合わせ情報を一元管理していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q17", "text": "月次で流入・問合せ・成約を確認していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q18", "text": "SNS発信を継続していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q19", "text": "施工写真や動画を整理していますか？", "options": ["A", "B", "C", "D"] },
+    { "id": "q20", "text": "Web運用担当が明確ですか？", "options": ["A", "B", "C", "D"] }
+  ]
+}

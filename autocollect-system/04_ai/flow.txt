@@ -1,0 +1,35 @@
+GA4 / GSC / LINE / 広告 / フォーム
+        |
+        v
+[data_collector]
+        |
+        v
+[keyword_classifier] --> keywords_master.csv
+        |
+        v
+[brief_builder] --> outputs/briefs/*.md
+        |
+        v
+[draft_assistant]
+        |
+        v
+[seo_checker]
+        |
+        v
+人間レビュー -> Wix公開
+        |
+        v
+[sns_repurposer] -> X / Instagram / YouTube
+        |
+        v
+流入 -> 診断 -> LINE登録
+        |
+        v
+[lead_scorer] -> HOT/WARM/COLD
+        |
+        v
+無料相談 -> [proposal_helper]
+        |
+        v
+受注結果 -> [weekly_reporter] -> 改善ループ
+

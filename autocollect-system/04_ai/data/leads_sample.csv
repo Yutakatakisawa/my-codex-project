@@ -1,0 +1,7 @@
+lead_id,name,industry,area,diagnosis_score,line_clicks,page_views,consultation_booked,last_active_days
+L001,佐藤工業,屋根屋,盛岡市,82,4,9,true,2
+L002,田中塗装,塗装屋,滝沢市,68,3,6,false,5
+L003,高橋外構,外構業者,花巻市,55,2,5,false,12
+L004,菅原建設,一人親方,北上市,34,1,2,false,20
+L005,中村板金,屋根屋,一関市,91,5,10,true,1
+L006,阿部リフォーム,塗装屋,奥州市,47,1,4,false,18
