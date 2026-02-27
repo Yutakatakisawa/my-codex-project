@@ -29,7 +29,9 @@
 ```
 /
 ├── index.html          # メインHTML
-├── homepageseisaku.html # 職人WEB制作の診断ページ
+├── homepageseisaku.html # 職人WEB制作の診断ページ（直リンク）
+├── homepageseisaku/
+│   └── index.html      # /homepageseisaku 用エントリ
 ├── css/
 │   ├── style.css       # メインスタイルシート
 │   └── homepage-seisaku.css # 診断ページ用スタイル
