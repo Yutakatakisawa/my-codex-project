@@ -1,0 +1,32 @@
+[
+  {
+    "name": "SaaS Landing Page",
+    "category": "landing",
+    "sections": ["hero", "features", "pricing", "testimonials", "cta"],
+    "description": "Typical SaaS marketing landing page with hero, features, pricing, testimonials and call-to-action"
+  },
+  {
+    "name": "E-commerce Product Page",
+    "category": "ecommerce",
+    "sections": ["hero", "features", "testimonials", "cta"],
+    "description": "E-commerce product showcase with hero banner, product features and testimonials"
+  },
+  {
+    "name": "Agency Portfolio",
+    "category": "agency",
+    "sections": ["hero", "services", "testimonials", "contact"],
+    "description": "Creative agency portfolio with hero, services showcase and contact form"
+  },
+  {
+    "name": "Roofing Company Landing",
+    "category": "landing",
+    "sections": ["hero", "services", "testimonials", "contact", "cta"],
+    "description": "Home services company landing page for roofing repair with services and contact"
+  },
+  {
+    "name": "Admin Dashboard",
+    "category": "dashboard",
+    "sections": ["hero", "features", "services"],
+    "description": "Admin panel dashboard layout with overview and data sections"
+  }
+]
