@@ -105,20 +105,14 @@ function generateSyntheticPatterns(count: number): UIPattern[] {
   ];
 
   const patterns: UIPattern[] = [];
-  const seen = new Set<string>();
+  const suffix = ["Pro", "Plus", "Elite", "Standard", "Premium", "Basic", "Starter", "Enterprise"];
 
   for (let i = 0; i < count; i++) {
     const template = templates[i % templates.length];
-    const category = randomChoice(CATEGORIES);
+    const category = CATEGORIES[i % CATEGORIES.length];
     const sections = randomSubset(SECTION_TYPES, 3, 6);
-    const key = `${category}-${sections.join("-")}`;
-
-    if (seen.has(key)) continue;
-    seen.add(key);
-
-    const suffix = ["Pro", "Plus", "Elite", "Standard", "Premium", "Basic", "Starter", "Enterprise"][i % 8];
     patterns.push({
-      name: `${template.name} ${suffix} ${i}`,
+      name: `${template.name} ${suffix[i % suffix.length]} ${i}`,
       category,
       sections,
       description: `${template.desc} for ${category} with ${sections.join(", ")}`,
