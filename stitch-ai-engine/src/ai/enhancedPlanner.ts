@@ -1,6 +1,6 @@
 import { UIPage } from "@/types/uiSchema";
 import { retrieveSimilarLayouts } from "./retrievePatterns";
-import { planLayout } from "./planner";
+import { planLayout, parseLayoutResponse } from "./planner";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -20,11 +20,11 @@ Follow this exact schema:
 Use the relevant patterns as inspiration but adapt to the user's specific request.`;
 
 export async function planLayoutWithRAG(prompt: string): Promise<UIPage> {
-  const patterns = await retrieveSimilarLayouts(prompt, 5);
-
   if (!GEMINI_API_KEY && !OPENAI_API_KEY) {
     return planLayout(prompt);
   }
+
+  const patterns = await retrieveSimilarLayouts(prompt, 5);
 
   const patternsContext = patterns
     .map(
@@ -76,21 +76,4 @@ async function planWithOpenAI(prompt: string): Promise<UIPage> {
 
   const text = completion.choices[0]?.message?.content ?? "";
   return parseLayoutResponse(text);
-}
-
-function parseLayoutResponse(text: string): UIPage {
-  const cleaned = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-  const parsed = JSON.parse(cleaned) as UIPage;
-
-  if (!parsed.type || !Array.isArray(parsed.sections)) {
-    throw new Error("Invalid layout response from AI");
-  }
-
-  return {
-    type: parsed.type === "dashboard" ? "dashboard" : "landing",
-    sections: parsed.sections.map((s) => ({
-      type: s.type,
-      props: s.props || {},
-    })),
-  };
 }

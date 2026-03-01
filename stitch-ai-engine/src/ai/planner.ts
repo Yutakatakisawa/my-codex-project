@@ -61,7 +61,7 @@ async function planWithOpenAI(prompt: string): Promise<UIPage> {
   return parseLayoutResponse(text);
 }
 
-function parseLayoutResponse(text: string): UIPage {
+export function parseLayoutResponse(text: string): UIPage {
   const cleaned = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
   const parsed = JSON.parse(cleaned) as UIPage;
 
