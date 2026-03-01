@@ -1,51 +1,41 @@
-# 瀧澤屋根工業 - Takisawa Roof Website
+# 屋根レスキュー24 - Roofing Landing Page
 
-盛岡市の屋根工事専門店「瀧澤屋根工業」の公式ウェブサイト。
+X投稿（Claude + Figmaで短時間に本番品質サイトを作るという内容）を参考に、  
+**屋根工事業者向けの1ページサイト**として再構築した静的Webサイトです。
 
-## 概要
+## 実装内容
 
-屋根葺き替え・カバー工法・雨漏り修理・雪止め・雨樋の修理まで幅広く対応する屋根工事専門店のウェブサイトです。
+- 強い訴求を持つヒーローセクション（即日対応・無料見積り）
+- サービス一覧（雨漏り修理 / カバー工法 / 葺き替え / 雨どい ほか）
+- 施工事例・料金目安・工事フロー
+- FAQアコーディオン
+- お問い合わせフォーム（フロント側バリデーション付き）
+- モバイルメニュー / スムーズスクロール / スクロール時のUI変化
+- モバイル用の固定電話CTA
 
 ## 技術スタック
 
 - HTML5
-- CSS3 (カスタムプロパティ、Grid、Flexbox)
-- Vanilla JavaScript (ES6+)
-- Google Fonts (Noto Sans JP, Noto Serif JP)
-
-## 特徴
-
-- レスポンシブデザイン（モバイル・タブレット・デスクトップ対応）
-- スムーズスクロール
-- スクロールアニメーション（IntersectionObserver使用）
-- FAQ アコーディオン
-- お問い合わせフォーム
-- モバイルナビゲーション
-- バックトゥトップボタン
-- 固定電話ボタン（モバイル表示時）
+- CSS3（Grid / Flexbox / カスタムプロパティ）
+- Vanilla JavaScript（ES6）
 
 ## ファイル構成
 
-```
-/
-├── index.html          # メインHTML
+```text
+/workspace
+├── index.html
 ├── css/
-│   └── style.css       # スタイルシート
+│   └── style.css
 ├── js/
-│   └── main.js         # JavaScript
-└── README.md           # このファイル
+│   └── main.js
+└── README.md
 ```
 
-## ローカルでの確認
-
-任意のHTTPサーバーで配信してください:
+## ローカル確認
 
 ```bash
-# Python 3を使う場合
 python3 -m http.server 8000
-
-# Node.jsのhttp-serverを使う場合
-npx http-server
 ```
 
-ブラウザで `http://localhost:8000` を開いてください。
+ブラウザで `http://localhost:8000` を開いて確認してください。
+
