@@ -589,6 +589,7 @@ function cacheElements() {
   els.statComponents = document.getElementById("statComponents");
   els.statFrameworks = document.getElementById("statFrameworks");
   els.statImplementations = document.getElementById("statImplementations");
+  els.statDesignTokens = document.getElementById("statDesignTokens");
 
   els.searchInput = document.getElementById("searchInput");
   els.categoryFilters = document.getElementById("categoryFilters");
@@ -616,6 +617,9 @@ function cacheElements() {
   els.modalCode = document.getElementById("modalCode");
   els.modalLinks = document.getElementById("modalLinks");
   els.copyCodeBtn = document.getElementById("copyCodeBtn");
+  els.modalDesignSummary = document.getElementById("modalDesignSummary");
+  els.modalDesignJson = document.getElementById("modalDesignJson");
+  els.copyDesignBtn = document.getElementById("copyDesignBtn");
 }
 
 function bindEvents() {
@@ -738,7 +742,12 @@ function bindEvents() {
     renderModalBody();
   });
 
-  els.copyCodeBtn.addEventListener("click", copyModalCode);
+  if (els.copyCodeBtn) {
+    els.copyCodeBtn.addEventListener("click", copyModalCode);
+  }
+  if (els.copyDesignBtn) {
+    els.copyDesignBtn.addEventListener("click", copyDesignJson);
+  }
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && els.detailModal.classList.contains("is-open")) {
@@ -751,10 +760,16 @@ function renderStaticMeta() {
   const implementationCount = COMPONENTS.reduce((total, component) => {
     return total + getImplementedCount(component);
   }, 0);
+  const designTokenCount = COMPONENTS.reduce((total, component) => {
+    return total + getDesignSpec(component).tokens.length;
+  }, 0);
 
   els.statComponents.textContent = String(COMPONENTS.length);
   els.statFrameworks.textContent = String(FRAMEWORKS.length);
   els.statImplementations.textContent = String(implementationCount);
+  if (els.statDesignTokens) {
+    els.statDesignTokens.textContent = String(designTokenCount);
+  }
 }
 
 function renderFilterChips() {
@@ -842,6 +857,7 @@ function buildComponentCard(component) {
   const favoriteActive = state.favorites.has(component.id);
   const implementedCount = getImplementedCount(component);
   const coverageStatus = getCoverageStatus(component);
+  const designSpec = getDesignSpec(component);
   const frameworkBadges = FRAMEWORK_ORDER.map((frameworkId) => {
     const framework = getFrameworkById(frameworkId);
     const entry = getFrameworkEntry(component, frameworkId);
@@ -875,6 +891,11 @@ function buildComponentCard(component) {
         </div>
 
         <div class="framework-list">${frameworkBadges}</div>
+        <div class="card-design">
+          <span class="design-chip">${designSpec.tokens.length} tokens</span>
+          <span class="design-chip">${designSpec.states.length} states</span>
+          <span class="design-chip">${designSpec.accessibility.level}</span>
+        </div>
 
         <div class="card-actions">
           <button class="btn btn--primary btn--sm" type="button" data-action="detail" data-component-id="${component.id}">
@@ -986,6 +1007,7 @@ function renderModalBody() {
   const framework = getFrameworkById(frameworkId);
   const entry = getFrameworkEntry(component, frameworkId);
   const implementedCount = getImplementedCount(component);
+  const designSpec = getDesignSpec(component);
   const snippet = isImplemented(entry.status)
     ? entry.snippet
     : `// ${framework.label} implementation is planned`;
@@ -1019,6 +1041,46 @@ function renderModalBody() {
   `;
   els.modalPreview.innerHTML = buildPreview(component.preview);
   els.modalCode.textContent = snippet;
+  if (els.modalDesignSummary) {
+    els.modalDesignSummary.innerHTML = `
+      <div class="design-grid">
+        <div class="design-item">
+          <span class="design-item__label">Token Count</span>
+          <span class="design-item__value">${designSpec.tokens.length}</span>
+        </div>
+        <div class="design-item">
+          <span class="design-item__label">State Model</span>
+          <span class="design-item__value">${escapeHtml(designSpec.states.join(", "))}</span>
+        </div>
+        <div class="design-item">
+          <span class="design-item__label">Anatomy</span>
+          <span class="design-item__value">${escapeHtml(designSpec.anatomy.join(", "))}</span>
+        </div>
+        <div class="design-item">
+          <span class="design-item__label">Accessibility</span>
+          <span class="design-item__value">${escapeHtml(
+            `${designSpec.accessibility.level} / keyboard ${designSpec.accessibility.keyboard ? "yes" : "no"}`
+          )}</span>
+        </div>
+      </div>
+    `;
+  }
+  if (els.modalDesignJson) {
+    els.modalDesignJson.textContent = JSON.stringify(
+      {
+        component: component.name,
+        category: component.category,
+        framework: {
+          id: framework.id,
+          label: framework.label,
+          status: entry.status,
+        },
+        design: designSpec,
+      },
+      null,
+      2
+    );
+  }
 
   const links = [
     entry.docs ? `<a href="${entry.docs}" target="_blank" rel="noopener noreferrer">公式ドキュメント</a>` : "",
@@ -1030,31 +1092,11 @@ function renderModalBody() {
 }
 
 async function copyModalCode() {
-  const code = els.modalCode.textContent;
-  if (!code) return;
+  await copyTextFromElement(els.modalCode, els.copyCodeBtn);
+}
 
-  const originalText = els.copyCodeBtn.textContent;
-  try {
-    if (!navigator.clipboard || !navigator.clipboard.writeText) {
-      throw new Error("Clipboard API unavailable");
-    }
-    await navigator.clipboard.writeText(code);
-    els.copyCodeBtn.textContent = "コピーしました";
-  } catch (error) {
-    // Fallback: selection-based copy for environments without Clipboard API.
-    const range = document.createRange();
-    range.selectNodeContents(els.modalCode);
-    const selection = window.getSelection();
-    selection?.removeAllRanges();
-    selection?.addRange(range);
-    document.execCommand("copy");
-    selection?.removeAllRanges();
-    els.copyCodeBtn.textContent = "コピーしました";
-  }
-
-  window.setTimeout(() => {
-    els.copyCodeBtn.textContent = originalText;
-  }, 1300);
+async function copyDesignJson() {
+  await copyTextFromElement(els.modalDesignJson, els.copyDesignBtn);
 }
 
 function toggleFavorite(componentId) {
@@ -1100,6 +1142,65 @@ function getCoverageStatus(component) {
   return "planned";
 }
 
+function getDesignSpec(component) {
+  const categoryBlueprintMap = {
+    Actions: {
+      baseTokens: ["color.action.primary", "radius.control.md", "motion.tap.fast"],
+      states: ["default", "hover", "active", "disabled", "focus-visible"],
+      anatomy: ["container", "label", "icon"],
+      interaction: "trigger",
+    },
+    Forms: {
+      baseTokens: ["color.input.border", "space.field.x", "typography.field.label"],
+      states: ["empty", "filled", "focus", "invalid", "disabled"],
+      anatomy: ["label", "control", "assistive-text"],
+      interaction: "input",
+    },
+    Feedback: {
+      baseTokens: ["color.feedback.info", "layer.overlay", "motion.enter.standard"],
+      states: ["open", "closing", "dismissed"],
+      anatomy: ["container", "message", "action"],
+      interaction: "system-feedback",
+    },
+    Navigation: {
+      baseTokens: ["color.nav.active", "space.nav.item", "radius.nav.item"],
+      states: ["default", "hover", "selected", "disabled"],
+      anatomy: ["list", "item", "indicator"],
+      interaction: "route-switch",
+    },
+    "Data Display": {
+      baseTokens: ["color.data.border", "space.row.gap", "typography.data.cell"],
+      states: ["default", "hover", "selected", "loading"],
+      anatomy: ["header", "row", "cell"],
+      interaction: "browse-data",
+    },
+  };
+
+  const blueprint =
+    categoryBlueprintMap[component.category] ?? categoryBlueprintMap["Data Display"];
+  const semanticTokens = component.tags.slice(0, 3).map((tag) => `semantic.${tag}`);
+  const uniqueTokens = Array.from(new Set([...blueprint.baseTokens, ...semanticTokens]));
+  const implementedCount = getImplementedCount(component);
+  const coverage = implementedCount / FRAMEWORKS.length;
+
+  return {
+    tokens: uniqueTokens,
+    states: blueprint.states,
+    anatomy: blueprint.anatomy,
+    interaction: blueprint.interaction,
+    accessibility: {
+      level: "WCAG 2.2 AA",
+      keyboard: true,
+      ariaPatterns: true,
+      reducedMotion: component.category === "Feedback" ? "recommended" : "supported",
+    },
+    quality: {
+      frameworkCoverage: `${implementedCount}/${FRAMEWORKS.length}`,
+      maturity: coverage >= 0.8 ? "high" : coverage >= 0.5 ? "medium" : "low",
+    },
+  };
+}
+
 function isImplemented(status) {
   return status === "stable" || status === "beta";
 }
@@ -1129,6 +1230,32 @@ function persistFavorites(favoritesSet) {
   } catch {
     // Ignore storage errors in private mode or restricted environments.
   }
+}
+
+async function copyTextFromElement(sourceEl, triggerEl) {
+  const text = sourceEl?.textContent;
+  if (!text || !triggerEl) return;
+
+  const originalText = triggerEl.textContent;
+  try {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      throw new Error("Clipboard API unavailable");
+    }
+    await navigator.clipboard.writeText(text);
+  } catch (error) {
+    const range = document.createRange();
+    range.selectNodeContents(sourceEl);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    document.execCommand("copy");
+    selection?.removeAllRanges();
+  }
+
+  triggerEl.textContent = "コピーしました";
+  window.setTimeout(() => {
+    triggerEl.textContent = originalText;
+  }, 1300);
 }
 
 function escapeHtml(value) {

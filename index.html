@@ -65,6 +65,10 @@
             <span class="stat-card__label">Implementations</span>
             <strong id="statImplementations">0</strong>
           </div>
+          <div class="stat-card">
+            <span class="stat-card__label">Design Tokens</span>
+            <strong id="statDesignTokens">0</strong>
+          </div>
         </div>
 
         <div class="control-panel">
@@ -191,6 +195,12 @@
         </div>
 
         <pre class="code-block"><code id="modalCode"></code></pre>
+        <div class="code-toolbar">
+          <span>Design Spec JSON</span>
+          <button class="btn btn--ghost btn--sm" id="copyDesignBtn" type="button">デザインJSONをコピー</button>
+        </div>
+        <div class="design-summary" id="modalDesignSummary"></div>
+        <pre class="code-block code-block--design"><code id="modalDesignJson"></code></pre>
         <div class="modal__links" id="modalLinks"></div>
       </div>
     </div>

@@ -194,7 +194,7 @@ select {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 0.8rem;
   margin-bottom: 1.2rem;
 }
@@ -518,6 +518,24 @@ select {
   gap: 0.35rem;
 }
 
+.card-design {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.design-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(72, 214, 178, 0.35);
+  background: rgba(72, 214, 178, 0.1);
+  color: #a6f3de;
+  padding: 0.18rem 0.52rem;
+  font-size: 0.7rem;
+}
+
 .framework-badge {
   display: inline-flex;
   align-items: center;
@@ -826,6 +844,42 @@ select {
   font-size: 0.8rem;
 }
 
+.design-summary {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(11, 21, 43, 0.75);
+  padding: 0.75rem;
+}
+
+.design-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.design-item {
+  border: 1px solid #24365f;
+  border-radius: 9px;
+  padding: 0.5rem 0.55rem;
+  background: rgba(14, 22, 43, 0.75);
+}
+
+.design-item__label {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+  color: var(--text-soft);
+}
+
+.design-item__value {
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.code-block--design {
+  max-height: 260px;
+}
+
 .modal__links {
   display: flex;
   flex-wrap: wrap;
@@ -875,6 +929,10 @@ select {
   .stats-grid,
   .filters-grid,
   .component-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .design-grid {
     grid-template-columns: 1fr;
   }
 
