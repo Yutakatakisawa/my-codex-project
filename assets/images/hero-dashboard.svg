@@ -1,0 +1,63 @@
+<svg width="1280" height="760" viewBox="0 0 1280 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101B3A"/>
+      <stop offset="0.55" stop-color="#0A1126"/>
+      <stop offset="1" stop-color="#151B35"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(310 190) rotate(42) scale(420 290)">
+      <stop stop-color="#7B74FF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#7B74FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(990 580) rotate(18) scale(390 260)">
+      <stop stop-color="#4BE0FF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#4BE0FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#202B51"/>
+      <stop offset="1" stop-color="#131B35"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="760" rx="24" fill="url(#bg)"/>
+  <rect width="1280" height="760" rx="24" fill="url(#glowA)"/>
+  <rect width="1280" height="760" rx="24" fill="url(#glowB)"/>
+
+  <rect x="42" y="44" width="1196" height="70" rx="18" fill="#0D1430" stroke="#2B375F"/>
+  <rect x="72" y="70" width="190" height="18" rx="9" fill="#4A57A7"/>
+  <rect x="877" y="69" width="82" height="20" rx="10" fill="#1E294D"/>
+  <rect x="968" y="69" width="82" height="20" rx="10" fill="#1E294D"/>
+  <rect x="1059" y="69" width="150" height="20" rx="10" fill="#7B74FF"/>
+
+  <rect x="42" y="144" width="300" height="570" rx="18" fill="url(#card)" stroke="#2D3A63"/>
+  <rect x="380" y="144" width="858" height="270" rx="18" fill="url(#card)" stroke="#2D3A63"/>
+  <rect x="380" y="444" width="410" height="270" rx="18" fill="url(#card)" stroke="#2D3A63"/>
+  <rect x="828" y="444" width="410" height="270" rx="18" fill="url(#card)" stroke="#2D3A63"/>
+
+  <rect x="72" y="184" width="210" height="14" rx="7" fill="#A4B3EE"/>
+  <rect x="72" y="212" width="152" height="12" rx="6" fill="#6A77B9"/>
+  <rect x="72" y="248" width="238" height="86" rx="12" fill="#151F40" stroke="#2D3B67"/>
+  <rect x="88" y="270" width="98" height="16" rx="8" fill="#7B74FF"/>
+  <rect x="194" y="270" width="98" height="16" rx="8" fill="#4BE0FF"/>
+
+  <rect x="72" y="358" width="238" height="86" rx="12" fill="#151F40" stroke="#2D3B67"/>
+  <rect x="72" y="468" width="238" height="86" rx="12" fill="#151F40" stroke="#2D3B67"/>
+  <rect x="72" y="578" width="238" height="86" rx="12" fill="#151F40" stroke="#2D3B67"/>
+
+  <rect x="414" y="184" width="320" height="14" rx="7" fill="#B4C2F8"/>
+  <rect x="414" y="212" width="200" height="12" rx="6" fill="#7080C1"/>
+  <path d="M414 330C474 290 536 336 594 300C648 266 702 280 746 250C790 220 846 230 908 200C968 172 1022 194 1070 166C1110 142 1162 154 1206 128" stroke="#4BE0FF" stroke-width="5" stroke-linecap="round"/>
+  <path d="M414 350C470 342 516 318 582 334C636 348 700 338 768 360C828 380 890 388 952 402C1022 418 1084 412 1206 430" stroke="#7B74FF" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+
+  <rect x="414" y="474" width="166" height="12" rx="6" fill="#A7B5EF"/>
+  <rect x="414" y="502" width="120" height="10" rx="5" fill="#6777B7"/>
+  <rect x="414" y="528" width="342" height="18" rx="9" fill="#1A274A"/>
+  <rect x="414" y="556" width="342" height="18" rx="9" fill="#1A274A"/>
+  <rect x="414" y="584" width="290" height="18" rx="9" fill="#1A274A"/>
+
+  <rect x="862" y="474" width="200" height="12" rx="6" fill="#A7B5EF"/>
+  <rect x="862" y="502" width="150" height="10" rx="5" fill="#6777B7"/>
+  <rect x="862" y="528" width="342" height="76" rx="12" fill="#151F40" stroke="#2D3B67"/>
+  <rect x="882" y="554" width="302" height="16" rx="8" fill="#4BE0FF" opacity="0.26"/>
+  <rect x="882" y="578" width="204" height="10" rx="5" fill="#6777B7"/>
+</svg>

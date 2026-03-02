@@ -31,6 +31,7 @@
 
       <nav class="nav" id="nav">
         <a href="#features">Features</a>
+        <a href="#showcase">Showcase</a>
         <a href="#components">Components</a>
         <a href="#themes">Themes</a>
         <a href="#pricing">Pricing</a>
@@ -92,6 +93,15 @@
         </div>
 
         <div class="hero__right" data-reveal="left">
+          <div class="hero-shot-wrap">
+            <img
+              class="hero-shot"
+              src="assets/images/hero-dashboard.svg"
+              alt="Aurora UIのダッシュボードイメージ"
+              loading="eager"
+              decoding="async"
+            >
+          </div>
           <article class="demo-window">
             <div class="demo-window__top">
               <div class="dots"><span></span><span></span><span></span></div>
@@ -174,6 +184,30 @@
       </div>
     </section>
 
+    <section class="section showcase" id="showcase">
+      <div class="container">
+        <div class="section-head" data-reveal="up">
+          <span class="kicker">Showcase</span>
+          <h2>ビジュアルイメージ</h2>
+          <p>実際のUI利用シーンを想定したイメージ画像を配置しました。</p>
+        </div>
+        <div class="showcase-grid">
+          <figure class="showcase-card" data-reveal="up">
+            <img src="assets/images/showcase-components.svg" alt="コンポーネント一覧イメージ" loading="lazy" decoding="async">
+            <figcaption>Components Library</figcaption>
+          </figure>
+          <figure class="showcase-card" data-reveal="up" data-delay="90">
+            <img src="assets/images/showcase-theme.svg" alt="テーマエディタのイメージ" loading="lazy" decoding="async">
+            <figcaption>Theme Editor</figcaption>
+          </figure>
+          <figure class="showcase-card" data-reveal="up" data-delay="180">
+            <img src="assets/images/showcase-docs.svg" alt="ドキュメントサイトのイメージ" loading="lazy" decoding="async">
+            <figcaption>Developer Docs</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
     <section class="section components" id="components">
       <div class="container">
         <div class="section-head" data-reveal="up">
@@ -220,6 +254,7 @@
             <button class="btn btn--ghost btn--sm" type="button">Save Theme</button>
           </header>
           <div class="theme-preview__body">
+            <img class="theme-preview__image" src="assets/images/theme-preview.svg" alt="ダークとライトのテーマ比較イメージ" loading="lazy" decoding="async">
             <div class="preview-card">
               <h3>Deploy your dashboard</h3>
               <p>Review changed tokens and publish in one click.</p>
