@@ -1,1261 +1,350 @@
-const FRAMEWORKS = [
-  { id: "react", label: "React" },
-  { id: "vue", label: "Vue" },
-  { id: "svelte", label: "Svelte" },
-  { id: "angular", label: "Angular" },
-  { id: "solid", label: "Solid" },
+const DEMOS = {
+  button: {
+    code: `<Button color="primary" radius="full">\n  Launch Product\n</Button>`,
+    render: () => `
+      <div class="demo-card">
+        <p class="demo-label">Button Showcase</p>
+        <div style="display:flex; gap: .6rem; flex-wrap:wrap;">
+          <button class="btn btn--primary btn--sm" type="button">Primary</button>
+          <button class="btn btn--ghost btn--sm" type="button">Ghost</button>
+          <button class="btn btn--ghost btn--sm" type="button" disabled style="opacity:.6;">Disabled</button>
+        </div>
+      </div>
+    `,
+  },
+  card: {
+    code: `<Card>\n  <CardHeader title="Team Analytics" />\n  <CardBody>...</CardBody>\n</Card>`,
+    render: () => `
+      <div class="demo-card" style="border:1px solid var(--line); border-radius:14px; padding:.75rem;">
+        <p class="demo-label">Dashboard Card</p>
+        <h4 style="margin:.3rem 0 .2rem;">Team Analytics</h4>
+        <p style="margin:0; color:var(--text-soft); font-size:.82rem;">Monthly active users increased by 21.4%.</p>
+        <div style="margin-top:.6rem; display:flex; gap:.35rem; flex-wrap:wrap;">
+          <span class="tag">+21.4%</span>
+          <span class="tag">Realtime</span>
+        </div>
+      </div>
+    `,
+  },
+  modal: {
+    code: `const {isOpen, onOpenChange} = useDisclosure();\n<Modal isOpen={isOpen} onOpenChange={onOpenChange} />`,
+    render: () => `
+      <div class="demo-card">
+        <p class="demo-label">Modal Pattern</p>
+        <div style="border:1px solid var(--line); border-radius:14px; padding:.75rem; background:rgba(255,255,255,.02);">
+          <h4 style="margin:0 0 .28rem;">Confirm deploy?</h4>
+          <p style="margin:0; color:var(--text-soft); font-size:.82rem;">This action will push your current UI theme to production.</p>
+          <div style="margin-top:.7rem; display:flex; gap:.5rem;">
+            <button class="btn btn--ghost btn--sm" type="button">Cancel</button>
+            <button class="btn btn--primary btn--sm" type="button">Deploy</button>
+          </div>
+        </div>
+      </div>
+    `,
+  },
+};
+
+const COMPONENT_CATALOG = [
+  { name: "Button", category: "actions", desc: "主要操作を示すCTAボタン。" },
+  { name: "Input", category: "forms", desc: "検証可能なテキスト入力。" },
+  { name: "Select", category: "forms", desc: "検索対応のセレクトメニュー。" },
+  { name: "Modal", category: "overlays", desc: "集中タスク向けダイアログ。" },
+  { name: "Toast", category: "feedback", desc: "一時的な通知表示コンポーネント。" },
+  { name: "Dropdown", category: "navigation", desc: "文脈メニューや選択肢表示。" },
+  { name: "Tabs", category: "navigation", desc: "関連コンテンツの切り替え。" },
+  { name: "Table", category: "data", desc: "列ベースで構造化データを表示。" },
+  { name: "Pagination", category: "data", desc: "ページ移動を管理するUI。" },
+  { name: "Card", category: "layout", desc: "情報のまとまりを見せる器。" },
+  { name: "Avatar", category: "data", desc: "ユーザー識別のビジュアル要素。" },
+  { name: "Badge", category: "feedback", desc: "状態や件数をコンパクト表示。" },
 ];
 
-const FRAMEWORK_ORDER = FRAMEWORKS.map((framework) => framework.id);
-const FAVORITES_STORAGE_KEY = "component-gallery.favorites.v1";
-const DEFAULT_COMPARE_FRAMEWORKS = ["react", "vue", "svelte"];
-
-const COMPONENTS = [
-  {
-    id: "button",
-    name: "Button",
-    category: "Actions",
-    description: "基本操作のトリガーになる主要コンポーネント。",
-    preview: "button",
-    tags: ["cta", "action", "primary"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: '<Button variant="contained">Save</Button>',
-        docs: "https://mui.com/material-ui/react-button/",
-        source: "https://github.com/mui/material-ui",
-        note: "MUI/Chakraともに安定して利用可能",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<Button label="Save" severity="primary" />',
-        docs: "https://primevue.org/button/",
-        source: "https://github.com/primefaces/primevue",
-        note: "PrimeVueで標準提供",
-      },
-      svelte: {
-        status: "beta",
-        snippet: '<Button tone="primary">Save</Button>',
-        docs: "https://www.skeleton.dev/docs/components/button",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "SvelteKit向けの導入実績が増加中",
-      },
-      angular: {
-        status: "stable",
-        snippet: '<button mat-raised-button color="primary">Save</button>',
-        docs: "https://material.angular.io/components/button/overview",
-        source: "https://github.com/angular/components",
-        note: "Angular Materialで成熟",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "社内実装テンプレート化を予定",
-      },
-    },
-  },
-  {
-    id: "icon-button",
-    name: "Icon Button",
-    category: "Actions",
-    description: "アイコンのみで意味を伝えるコンパクトなボタン。",
-    preview: "icon-button",
-    tags: ["icon", "toolbar", "compact"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: '<IconButton aria-label="Delete"><DeleteIcon /></IconButton>',
-        docs: "https://mui.com/material-ui/react-button/#icon-button",
-        source: "https://github.com/mui/material-ui",
-        note: "アクセシビリティ属性の付与が必須",
-      },
-      vue: {
-        status: "beta",
-        snippet: '<Button icon="pi pi-trash" rounded text aria-label="Delete" />',
-        docs: "https://primevue.org/button/#icon",
-        source: "https://github.com/primefaces/primevue",
-        note: "デザインシステムによって形状差分が大きい",
-      },
-      svelte: {
-        status: "beta",
-        snippet: '<IconButton name="trash" ariaLabel="Delete" />',
-        docs: "https://www.skeleton.dev/",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "アニメーション前提の実装が多い",
-      },
-      angular: {
-        status: "stable",
-        snippet: '<button mat-icon-button aria-label="Delete"><mat-icon>delete</mat-icon></button>',
-        docs: "https://material.angular.io/components/button/overview#icon-buttons",
-        source: "https://github.com/angular/components",
-        note: "MatIconと合わせて利用",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "仕様策定中",
-      },
-    },
-  },
-  {
-    id: "text-input",
-    name: "Text Input",
-    category: "Forms",
-    description: "テキスト入力フォーム。バリデーションとの組み合わせが基本。",
-    preview: "input",
-    tags: ["form", "validation", "field"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: '<TextField label="Email" type="email" fullWidth />',
-        docs: "https://mui.com/material-ui/react-text-field/",
-        source: "https://github.com/mui/material-ui",
-        note: "React Hook Formと組み合わせやすい",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<InputText v-model="email" placeholder="Email" />',
-        docs: "https://primevue.org/inputtext/",
-        source: "https://github.com/primefaces/primevue",
-        note: "v-modelでシンプルに双方向バインド",
-      },
-      svelte: {
-        status: "stable",
-        snippet: '<input class="input" bind:value={email} placeholder="Email" />',
-        docs: "https://svelte.dev/docs/svelte/bind",
-        source: "https://github.com/sveltejs/svelte",
-        note: "bind:valueによる最小構文",
-      },
-      angular: {
-        status: "stable",
-        snippet: '<input matInput [formControl]="emailControl" placeholder="Email" />',
-        docs: "https://material.angular.io/components/input/overview",
-        source: "https://github.com/angular/components",
-        note: "Reactive Formsとの併用が一般的",
-      },
-      solid: {
-        status: "beta",
-        snippet: '<TextField value={email()} onInput={(e) => setEmail(e.currentTarget.value)} />',
-        docs: "https://www.solidjs.com/docs/latest/api#signals",
-        source: "https://github.com/solidjs/solid",
-        note: "Signalベースで記述",
-      },
-    },
-  },
-  {
-    id: "select",
-    name: "Select",
-    category: "Forms",
-    description: "選択肢から1つ以上を選ぶためのフォーム要素。",
-    preview: "select",
-    tags: ["form", "dropdown", "option"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: '<Select value={value} onChange={handleChange}>{options}</Select>',
-        docs: "https://mui.com/material-ui/react-select/",
-        source: "https://github.com/mui/material-ui",
-        note: "非同期候補の扱いはAutocompleteが便利",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<Select v-model="value" :options="options" optionLabel="name" />',
-        docs: "https://primevue.org/select/",
-        source: "https://github.com/primefaces/primevue",
-        note: "Optionテンプレート拡張が柔軟",
-      },
-      svelte: {
-        status: "beta",
-        snippet: '<Select bind:value={value} items={options} />',
-        docs: "https://www.skeleton.dev/docs/components/select",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "カスタムUI選択肢の作り込みが必要",
-      },
-      angular: {
-        status: "stable",
-        snippet: '<mat-select [formControl]="selected"><mat-option>Option</mat-option></mat-select>',
-        docs: "https://material.angular.io/components/select/overview",
-        source: "https://github.com/angular/components",
-        note: "テンプレート/Reactive両方に対応",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "候補UIの仕様策定待ち",
-      },
-    },
-  },
-  {
-    id: "modal",
-    name: "Modal",
-    category: "Feedback",
-    description: "重要な確認や入力を行うためのオーバーレイダイアログ。",
-    preview: "modal",
-    tags: ["dialog", "overlay", "confirm"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: "<Dialog open={open} onClose={handleClose}>...</Dialog>",
-        docs: "https://mui.com/material-ui/react-dialog/",
-        source: "https://github.com/mui/material-ui",
-        note: "focus-trapとaria属性対応済み",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<Dialog v-model:visible="visible" modal header="Title">...</Dialog>',
-        docs: "https://primevue.org/dialog/",
-        source: "https://github.com/primefaces/primevue",
-        note: "Portal先の調整が重要",
-      },
-      svelte: {
-        status: "beta",
-        snippet: "{#if open}<Modal on:close={close}>...</Modal>{/if}",
-        docs: "https://www.skeleton.dev/docs/components/modal",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "状態管理をstore化すると扱いやすい",
-      },
-      angular: {
-        status: "stable",
-        snippet: 'this.dialog.open(UserDialogComponent, { width: "480px" });',
-        docs: "https://material.angular.io/components/dialog/overview",
-        source: "https://github.com/angular/components",
-        note: "DialogRefで閉じる値を返せる",
-      },
-      solid: {
-        status: "beta",
-        snippet: "<Dialog open={open()} onOpenChange={setOpen}>...</Dialog>",
-        docs: "https://www.solid-ui.com/docs/components/dialog",
-        source: "https://github.com/kobaltedev/kobalte",
-        note: "Kobalte系を使うと実装しやすい",
-      },
-    },
-  },
-  {
-    id: "toast",
-    name: "Toast",
-    category: "Feedback",
-    description: "非ブロッキングな通知メッセージ表示。",
-    preview: "toast",
-    tags: ["notification", "message", "feedback"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: 'toast.success("Saved successfully");',
-        docs: "https://fkhadra.github.io/react-toastify/introduction",
-        source: "https://github.com/fkhadra/react-toastify",
-        note: "サードパーティ採用が主流",
-      },
-      vue: {
-        status: "stable",
-        snippet: 'toast.add({ severity: "success", summary: "Saved" });',
-        docs: "https://primevue.org/toast/",
-        source: "https://github.com/primefaces/primevue",
-        note: "ToastServiceとセットで運用",
-      },
-      svelte: {
-        status: "beta",
-        snippet: "toasts.success('Saved successfully');",
-        docs: "https://www.skeleton.dev/docs/utilities/toasts",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "store駆動が一般的",
-      },
-      angular: {
-        status: "beta",
-        snippet: 'this.snackBar.open("Saved", "Close", { duration: 3000 });',
-        docs: "https://material.angular.io/components/snack-bar/overview",
-        source: "https://github.com/angular/components",
-        note: "SnackBarをToastとして利用",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "通知基盤を調査中",
-      },
-    },
-  },
-  {
-    id: "tabs",
-    name: "Tabs",
-    category: "Navigation",
-    description: "関連コンテンツをタブで切り替えて表示。",
-    preview: "tabs",
-    tags: ["navigation", "switch", "panel"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: "<Tabs value={value} onChange={handleChange}><Tab label='Overview' /></Tabs>",
-        docs: "https://mui.com/material-ui/react-tabs/",
-        source: "https://github.com/mui/material-ui",
-        note: "アクセシビリティ仕様が明確",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<Tabs value="0"><TabList>...</TabList><TabPanels>...</TabPanels></Tabs>',
-        docs: "https://primevue.org/tabs/",
-        source: "https://github.com/primefaces/primevue",
-        note: "テンプレートベースで可読性が高い",
-      },
-      svelte: {
-        status: "beta",
-        snippet: "<Tabs bind:value={tab}><Tab value='overview'>Overview</Tab></Tabs>",
-        docs: "https://www.skeleton.dev/docs/components/tabs",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "ルーティングと連動させやすい",
-      },
-      angular: {
-        status: "stable",
-        snippet: "<mat-tab-group><mat-tab label='Overview'>...</mat-tab></mat-tab-group>",
-        docs: "https://material.angular.io/components/tabs/overview",
-        source: "https://github.com/angular/components",
-        note: "lazy loadingタブも容易",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "既存ヘッドレスUIの採用検討",
-      },
-    },
-  },
-  {
-    id: "dropdown",
-    name: "Dropdown Menu",
-    category: "Navigation",
-    description: "文脈メニューやナビゲーション補助に使うドロップダウン。",
-    preview: "dropdown",
-    tags: ["menu", "context", "popover"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: "<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>...</Menu>",
-        docs: "https://mui.com/material-ui/react-menu/",
-        source: "https://github.com/mui/material-ui",
-        note: "Popover系と同じ位置計算モデル",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<Menu ref="menu" :model="items" popup />',
-        docs: "https://primevue.org/menu/",
-        source: "https://github.com/primefaces/primevue",
-        note: "Overlay表示制御が簡単",
-      },
-      svelte: {
-        status: "beta",
-        snippet: "<Dropdown><DropdownItem>Profile</DropdownItem></Dropdown>",
-        docs: "https://www.skeleton.dev/docs/components/popover",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "キーボード操作の補完が必要",
-      },
-      angular: {
-        status: "beta",
-        snippet: '<button [matMenuTriggerFor]="menu">Open</button><mat-menu #menu="matMenu">...</mat-menu>',
-        docs: "https://material.angular.io/components/menu/overview",
-        source: "https://github.com/angular/components",
-        note: "CDK Overlay依存",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "ヘッドレス実装案を検証中",
-      },
-    },
-  },
-  {
-    id: "table",
-    name: "Table",
-    category: "Data Display",
-    description: "構造化データを列/行で表示するテーブル。",
-    preview: "table",
-    tags: ["data", "rows", "columns"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: "<Table><TableHead>...</TableHead><TableBody>...</TableBody></Table>",
-        docs: "https://mui.com/material-ui/react-table/",
-        source: "https://github.com/mui/material-ui",
-        note: "高度機能はTanStack Table併用が多い",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<DataTable :value="rows"><Column field="name" header="Name" /></DataTable>',
-        docs: "https://primevue.org/datatable/",
-        source: "https://github.com/primefaces/primevue",
-        note: "ページング/ソートが内蔵",
-      },
-      svelte: {
-        status: "beta",
-        snippet: "<DataTable {rows} columns={columns} />",
-        docs: "https://www.skeleton.dev/",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "ヘッドレス実装比率が高い",
-      },
-      angular: {
-        status: "stable",
-        snippet: "<table mat-table [dataSource]='rows'>...</table>",
-        docs: "https://material.angular.io/components/table/overview",
-        source: "https://github.com/angular/components",
-        note: "MatTableDataSourceで簡易導入",
-      },
-      solid: {
-        status: "beta",
-        snippet: "<Table data={rows()} columns={columns} />",
-        docs: "https://tanstack.com/table/latest/docs/framework/solid/overview",
-        source: "https://github.com/TanStack/table",
-        note: "TanStack Table採用が中心",
-      },
-    },
-  },
-  {
-    id: "accordion",
-    name: "Accordion",
-    category: "Data Display",
-    description: "折りたたみ式で情報密度を保ちながら表示するUI。",
-    preview: "accordion",
-    tags: ["collapse", "faq", "details"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: "<Accordion><AccordionSummary>Title</AccordionSummary></Accordion>",
-        docs: "https://mui.com/material-ui/react-accordion/",
-        source: "https://github.com/mui/material-ui",
-        note: "FAQや設定画面でよく利用",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<Accordion><AccordionPanel value="0">...</AccordionPanel></Accordion>',
-        docs: "https://primevue.org/accordion/",
-        source: "https://github.com/primefaces/primevue",
-        note: "複数展開モードに対応",
-      },
-      svelte: {
-        status: "stable",
-        snippet: "<Accordion><AccordionItem summary='Title'>...</AccordionItem></Accordion>",
-        docs: "https://www.skeleton.dev/docs/components/accordion",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "軽量で扱いやすい",
-      },
-      angular: {
-        status: "beta",
-        snippet: "<mat-expansion-panel><mat-expansion-panel-header>...</mat-expansion-panel-header></mat-expansion-panel>",
-        docs: "https://material.angular.io/components/expansion/overview",
-        source: "https://github.com/angular/components",
-        note: "Expansion Panelで代替",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "コンポーネント選定中",
-      },
-    },
-  },
-  {
-    id: "date-picker",
-    name: "Date Picker",
-    category: "Forms",
-    description: "日付選択UI。予約や期限入力などで利用。",
-    preview: "calendar",
-    tags: ["date", "calendar", "form"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: "<DatePicker value={value} onChange={setValue} />",
-        docs: "https://mui.com/x/react-date-pickers/",
-        source: "https://github.com/mui/mui-x",
-        note: "MUI Xで高機能対応",
-      },
-      vue: {
-        status: "stable",
-        snippet: '<DatePicker v-model="date" showIcon fluid />',
-        docs: "https://primevue.org/datepicker/",
-        source: "https://github.com/primefaces/primevue",
-        note: "ロケール対応が容易",
-      },
-      svelte: {
-        status: "beta",
-        snippet: "<DateInput bind:value={date} />",
-        docs: "https://www.skeleton.dev/",
-        source: "https://github.com/skeletonlabs/skeleton",
-        note: "外部ライブラリ導入率が高い",
-      },
-      angular: {
-        status: "stable",
-        snippet: '<input matInput [matDatepicker]="picker"><mat-datepicker #picker></mat-datepicker>',
-        docs: "https://material.angular.io/components/datepicker/overview",
-        source: "https://github.com/angular/components",
-        note: "Material Datepickerが標準",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "実装方式を検証中",
-      },
-    },
-  },
-  {
-    id: "data-grid",
-    name: "Data Grid",
-    category: "Data Display",
-    description: "大規模データ向けの高機能テーブル（ソート/フィルタ/仮想化）。",
-    preview: "grid",
-    tags: ["data", "virtualization", "enterprise"],
-    frameworks: {
-      react: {
-        status: "stable",
-        snippet: "<DataGrid rows={rows} columns={columns} pagination />",
-        docs: "https://mui.com/x/react-data-grid/",
-        source: "https://github.com/mui/mui-x",
-        note: "最も採用事例が多い",
-      },
-      vue: {
-        status: "beta",
-        snippet: '<DataTable :value="rows" paginator :rows="10" scrollable />',
-        docs: "https://primevue.org/datatable/",
-        source: "https://github.com/primefaces/primevue",
-        note: "DataTable拡張で対応可能",
-      },
-      svelte: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "仮想化要件を満たす構成を検討中",
-      },
-      angular: {
-        status: "beta",
-        snippet: "<ag-grid-angular [rowData]='rows' [columnDefs]='columnDefs'></ag-grid-angular>",
-        docs: "https://www.ag-grid.com/angular-data-grid/",
-        source: "https://github.com/ag-grid/ag-grid",
-        note: "AG Grid採用が一般的",
-      },
-      solid: {
-        status: "planned",
-        snippet: "// Planned",
-        docs: "",
-        source: "",
-        note: "実運用候補を評価中",
-      },
-    },
-  },
-];
-
-const statusLabelMap = {
-  stable: "stable",
-  beta: "beta",
-  planned: "planned",
+const CATEGORY_LABELS = {
+  all: "All",
+  actions: "Actions",
+  forms: "Forms",
+  navigation: "Navigation",
+  overlays: "Overlays",
+  feedback: "Feedback",
+  data: "Data",
+  layout: "Layout",
 };
 
 const state = {
-  search: "",
-  selectedCategories: new Set(),
-  selectedFrameworks: new Set(),
-  favorites: new Set(loadFavorites()),
-  favoritesOnly: false,
-  implementedOnly: false,
-  sort: "name",
-  compareComponentId: COMPONENTS[0]?.id ?? "",
-  compareFrameworks: new Set(DEFAULT_COMPARE_FRAMEWORKS),
-  modalComponentId: null,
-  modalFrameworkId: null,
+  currentDemo: "button",
+  currentCategory: "all",
+  mode: "dark",
 };
 
-const els = {};
+const el = {};
 
 document.addEventListener("DOMContentLoaded", () => {
-  cacheElements();
-  bindEvents();
-  renderStaticMeta();
-  renderFilterChips();
-  renderComponentGrid();
-  renderCompareControls();
-  renderCompareGrid();
+  cache();
+  initScrollProgress();
+  initHeader();
+  initMobileNav();
+  initReveal();
+  initCopyInstall();
+  initDemoTabs();
+  initCatalog();
+  initThemePlayground();
 });
 
-function cacheElements() {
-  els.statComponents = document.getElementById("statComponents");
-  els.statFrameworks = document.getElementById("statFrameworks");
-  els.statImplementations = document.getElementById("statImplementations");
-  els.statDesignTokens = document.getElementById("statDesignTokens");
-
-  els.searchInput = document.getElementById("searchInput");
-  els.categoryFilters = document.getElementById("categoryFilters");
-  els.frameworkFilters = document.getElementById("frameworkFilters");
-  els.favoritesOnlyToggle = document.getElementById("favoritesOnlyToggle");
-  els.implementedOnlyToggle = document.getElementById("implementedOnlyToggle");
-  els.sortSelect = document.getElementById("sortSelect");
-  els.clearFiltersBtn = document.getElementById("clearFiltersBtn");
-  els.resultCount = document.getElementById("resultCount");
-  els.componentGrid = document.getElementById("componentGrid");
-  els.emptyState = document.getElementById("emptyState");
-
-  els.compareComponentSelect = document.getElementById("compareComponentSelect");
-  els.compareFrameworkList = document.getElementById("compareFrameworkList");
-  els.resetCompareBtn = document.getElementById("resetCompareBtn");
-  els.compareGrid = document.getElementById("compareGrid");
-
-  els.detailModal = document.getElementById("detailModal");
-  els.modalCloseBtn = document.getElementById("modalCloseBtn");
-  els.modalTitle = document.getElementById("modalTitle");
-  els.modalDescription = document.getElementById("modalDescription");
-  els.modalFrameworkTabs = document.getElementById("modalFrameworkTabs");
-  els.modalMeta = document.getElementById("modalMeta");
-  els.modalPreview = document.getElementById("modalPreview");
-  els.modalCode = document.getElementById("modalCode");
-  els.modalLinks = document.getElementById("modalLinks");
-  els.copyCodeBtn = document.getElementById("copyCodeBtn");
-  els.modalDesignSummary = document.getElementById("modalDesignSummary");
-  els.modalDesignJson = document.getElementById("modalDesignJson");
-  els.copyDesignBtn = document.getElementById("copyDesignBtn");
+function cache() {
+  el.scrollProgress = document.getElementById("scrollProgress");
+  el.header = document.getElementById("header");
+  el.nav = document.getElementById("nav");
+  el.hamburger = document.getElementById("hamburger");
+  el.copyInstallBtn = document.getElementById("copyInstallBtn");
+  el.installCommand = document.getElementById("installCommand");
+  el.previewTabs = document.getElementById("previewTabs");
+  el.previewStage = document.getElementById("previewStage");
+  el.previewCode = document.getElementById("previewCode");
+  el.componentFilters = document.getElementById("componentFilters");
+  el.componentsGrid = document.getElementById("componentsGrid");
+  el.hueRange = document.getElementById("hueRange");
+  el.radiusRange = document.getElementById("radiusRange");
+  el.modeSwitch = document.getElementById("modeSwitch");
+  el.themePreview = document.getElementById("themePreview");
+  el.tokenBrand = document.getElementById("tokenBrand");
+  el.tokenRadius = document.getElementById("tokenRadius");
+  el.tokenSurface = document.getElementById("tokenSurface");
 }
 
-function bindEvents() {
-  els.searchInput.addEventListener("input", (event) => {
-    state.search = event.target.value.trim().toLowerCase();
-    renderComponentGrid();
-  });
-
-  els.favoritesOnlyToggle.addEventListener("change", (event) => {
-    state.favoritesOnly = Boolean(event.target.checked);
-    renderComponentGrid();
-  });
-
-  els.implementedOnlyToggle.addEventListener("change", (event) => {
-    state.implementedOnly = Boolean(event.target.checked);
-    renderComponentGrid();
-  });
-
-  els.sortSelect.addEventListener("change", (event) => {
-    state.sort = event.target.value;
-    renderComponentGrid();
-  });
-
-  els.clearFiltersBtn.addEventListener("click", () => {
-    state.search = "";
-    state.selectedCategories.clear();
-    state.selectedFrameworks.clear();
-    state.favoritesOnly = false;
-    state.implementedOnly = false;
-    state.sort = "name";
-
-    els.searchInput.value = "";
-    els.favoritesOnlyToggle.checked = false;
-    els.implementedOnlyToggle.checked = false;
-    els.sortSelect.value = "name";
-
-    renderFilterChips();
-    renderComponentGrid();
-  });
-
-  els.categoryFilters.addEventListener("click", (event) => {
-    const chip = event.target.closest("button[data-category]");
-    if (!chip) return;
-    const category = chip.dataset.category;
-    toggleSetValue(state.selectedCategories, category);
-    renderFilterChips();
-    renderComponentGrid();
-  });
-
-  els.frameworkFilters.addEventListener("click", (event) => {
-    const chip = event.target.closest("button[data-framework]");
-    if (!chip) return;
-    const frameworkId = chip.dataset.framework;
-    toggleSetValue(state.selectedFrameworks, frameworkId);
-    renderFilterChips();
-    renderComponentGrid();
-  });
-
-  els.componentGrid.addEventListener("click", (event) => {
-    const actionTarget = event.target.closest("button[data-action]");
-    if (!actionTarget) return;
-
-    const action = actionTarget.dataset.action;
-    const componentId = actionTarget.dataset.componentId;
-    if (!componentId) return;
-
-    if (action === "favorite") {
-      toggleFavorite(componentId);
-      renderComponentGrid();
-      return;
-    }
-
-    if (action === "detail") {
-      openModal(componentId);
-      return;
-    }
-
-    if (action === "compare") {
-      state.compareComponentId = componentId;
-      els.compareComponentSelect.value = componentId;
-      renderCompareGrid();
-      document.getElementById("compare")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-
-  els.compareComponentSelect.addEventListener("change", (event) => {
-    state.compareComponentId = event.target.value;
-    renderCompareGrid();
-  });
-
-  els.compareFrameworkList.addEventListener("change", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement) || !target.dataset.frameworkId) return;
-    if (target.checked) {
-      state.compareFrameworks.add(target.dataset.frameworkId);
-    } else {
-      state.compareFrameworks.delete(target.dataset.frameworkId);
-    }
-    renderCompareGrid();
-  });
-
-  els.resetCompareBtn.addEventListener("click", () => {
-    state.compareComponentId = COMPONENTS[0]?.id ?? "";
-    state.compareFrameworks = new Set(DEFAULT_COMPARE_FRAMEWORKS);
-    renderCompareControls();
-    renderCompareGrid();
-  });
-
-  els.modalCloseBtn.addEventListener("click", closeModal);
-  els.detailModal.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLElement && event.target.hasAttribute("data-close-modal")) {
-      closeModal();
-    }
-  });
-
-  els.modalFrameworkTabs.addEventListener("click", (event) => {
-    const tab = event.target.closest("button[data-framework-id]");
-    if (!tab) return;
-    state.modalFrameworkId = tab.dataset.frameworkId;
-    renderModalBody();
-  });
-
-  if (els.copyCodeBtn) {
-    els.copyCodeBtn.addEventListener("click", copyModalCode);
-  }
-  if (els.copyDesignBtn) {
-    els.copyDesignBtn.addEventListener("click", copyDesignJson);
-  }
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && els.detailModal.classList.contains("is-open")) {
-      closeModal();
-    }
-  });
-}
-
-function renderStaticMeta() {
-  const implementationCount = COMPONENTS.reduce((total, component) => {
-    return total + getImplementedCount(component);
-  }, 0);
-  const designTokenCount = COMPONENTS.reduce((total, component) => {
-    return total + getDesignSpec(component).tokens.length;
-  }, 0);
-
-  els.statComponents.textContent = String(COMPONENTS.length);
-  els.statFrameworks.textContent = String(FRAMEWORKS.length);
-  els.statImplementations.textContent = String(implementationCount);
-  if (els.statDesignTokens) {
-    els.statDesignTokens.textContent = String(designTokenCount);
-  }
-}
-
-function renderFilterChips() {
-  const categories = Array.from(new Set(COMPONENTS.map((component) => component.category))).sort((a, b) =>
-    a.localeCompare(b)
+function initScrollProgress() {
+  const bar = el.scrollProgress;
+  if (!bar) return;
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const ratio = total > 0 ? window.scrollY / total : 0;
+        bar.style.width = `${Math.min(Math.max(ratio, 0), 1) * 100}%`;
+        ticking = false;
+      });
+    },
+    { passive: true }
   );
-
-  els.categoryFilters.innerHTML = categories
-    .map((category) => {
-      const active = state.selectedCategories.has(category);
-      return `<button type="button" class="chip ${active ? "is-active" : ""}" data-category="${escapeHtml(
-        category
-      )}">${escapeHtml(category)}</button>`;
-    })
-    .join("");
-
-  els.frameworkFilters.innerHTML = FRAMEWORKS.map((framework) => {
-    const active = state.selectedFrameworks.has(framework.id);
-    return `<button type="button" class="chip ${active ? "is-active" : ""}" data-framework="${framework.id}">${framework.label}</button>`;
-  }).join("");
 }
 
-function renderComponentGrid() {
-  const components = getFilteredComponents();
-
-  els.resultCount.textContent = `${components.length} components`;
-  els.componentGrid.innerHTML = components.map((component) => buildComponentCard(component)).join("");
-  els.emptyState.classList.toggle("hidden", components.length > 0);
+function initHeader() {
+  if (!el.header) return;
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        el.header.classList.toggle("is-scrolled", window.scrollY > 12);
+        ticking = false;
+      });
+    },
+    { passive: true }
+  );
 }
 
-function getFilteredComponents() {
-  const filtered = COMPONENTS.filter((component) => {
-    if (state.search) {
-      const content = [component.name, component.description, component.category, ...component.tags]
-        .join(" ")
-        .toLowerCase();
-      if (!content.includes(state.search)) return false;
-    }
+function initMobileNav() {
+  if (!el.hamburger || !el.nav) return;
+  const overlay = document.createElement("div");
+  overlay.className = "mobile-overlay";
+  document.body.appendChild(overlay);
 
-    if (state.selectedCategories.size && !state.selectedCategories.has(component.category)) {
-      return false;
-    }
+  const close = () => {
+    el.nav.classList.remove("is-open");
+    el.hamburger.classList.remove("is-open");
+    overlay.classList.remove("is-open");
+    el.hamburger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  };
 
-    if (state.selectedFrameworks.size) {
-      const hasAnyMatchedFramework = Array.from(state.selectedFrameworks).some((frameworkId) =>
-        isImplemented(getFrameworkEntry(component, frameworkId).status)
-      );
-      if (!hasAnyMatchedFramework) return false;
-    }
+  const open = () => {
+    el.nav.classList.add("is-open");
+    el.hamburger.classList.add("is-open");
+    overlay.classList.add("is-open");
+    el.hamburger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  };
 
-    if (state.favoritesOnly && !state.favorites.has(component.id)) {
-      return false;
-    }
-
-    if (state.implementedOnly) {
-      const hasPlannedImplementation = FRAMEWORK_ORDER.some(
-        (frameworkId) => getFrameworkEntry(component, frameworkId).status === "planned"
-      );
-      if (hasPlannedImplementation) return false;
-    }
-
-    return true;
+  el.hamburger.addEventListener("click", () => {
+    const isOpen = el.nav.classList.contains("is-open");
+    if (isOpen) close();
+    else open();
   });
 
-  filtered.sort((left, right) => {
-    if (state.sort === "coverage") {
-      const coverageDiff = getImplementedCount(right) - getImplementedCount(left);
-      if (coverageDiff !== 0) return coverageDiff;
-      return left.name.localeCompare(right.name);
-    }
+  overlay.addEventListener("click", close);
+  el.nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
 
-    if (state.sort === "category") {
-      const categoryDiff = left.category.localeCompare(right.category);
-      if (categoryDiff !== 0) return categoryDiff;
-      return left.name.localeCompare(right.name);
-    }
-
-    return left.name.localeCompare(right.name);
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860) close();
   });
-
-  return filtered;
 }
 
-function buildComponentCard(component) {
-  const favoriteActive = state.favorites.has(component.id);
-  const implementedCount = getImplementedCount(component);
-  const coverageStatus = getCoverageStatus(component);
-  const designSpec = getDesignSpec(component);
-  const frameworkBadges = FRAMEWORK_ORDER.map((frameworkId) => {
-    const framework = getFrameworkById(frameworkId);
-    const entry = getFrameworkEntry(component, frameworkId);
-    return `<span class="framework-badge" data-status="${entry.status}">${framework.label}</span>`;
-  }).join("");
-
-  return `
-    <article class="component-card">
-      ${buildPreview(component.preview)}
-      <div class="card-body">
-        <div class="card-head">
-          <div>
-            <h3>${escapeHtml(component.name)}</h3>
-          </div>
-          <button
-            type="button"
-            class="favorite-btn ${favoriteActive ? "is-active" : ""}"
-            data-action="favorite"
-            data-component-id="${component.id}"
-            aria-label="${favoriteActive ? "お気に入り解除" : "お気に入り登録"}"
-          >${favoriteActive ? "★" : "☆"}</button>
-        </div>
-
-        <p class="card-desc">${escapeHtml(component.description)}</p>
-
-        <div class="card-meta">
-          <span class="tag">${escapeHtml(component.category)}</span>
-          <span class="status status--${coverageStatus}">
-            ${implementedCount}/${FRAMEWORKS.length} implemented
-          </span>
-        </div>
-
-        <div class="framework-list">${frameworkBadges}</div>
-        <div class="card-design">
-          <span class="design-chip">${designSpec.tokens.length} tokens</span>
-          <span class="design-chip">${designSpec.states.length} states</span>
-          <span class="design-chip">${designSpec.accessibility.level}</span>
-        </div>
-
-        <div class="card-actions">
-          <button class="btn btn--primary btn--sm" type="button" data-action="detail" data-component-id="${component.id}">
-            詳細
-          </button>
-          <button class="btn btn--ghost btn--sm" type="button" data-action="compare" data-component-id="${component.id}">
-            比較
-          </button>
-        </div>
-      </div>
-    </article>
-  `;
-}
-
-function renderCompareControls() {
-  els.compareComponentSelect.innerHTML = COMPONENTS.map((component) => {
-    return `<option value="${component.id}">${escapeHtml(component.name)}</option>`;
-  }).join("");
-  els.compareComponentSelect.value = state.compareComponentId;
-
-  els.compareFrameworkList.innerHTML = FRAMEWORKS.map((framework) => {
-    const checked = state.compareFrameworks.has(framework.id) ? "checked" : "";
-    return `
-      <label class="checkbox-item">
-        <input type="checkbox" data-framework-id="${framework.id}" ${checked}>
-        <span>${framework.label}</span>
-      </label>
-    `;
-  }).join("");
-}
-
-function renderCompareGrid() {
-  const component = getComponentById(state.compareComponentId) ?? COMPONENTS[0];
-  if (!component) {
-    els.compareGrid.innerHTML = "";
+function initReveal() {
+  const revealEls = document.querySelectorAll("[data-reveal]");
+  if (!revealEls.length) return;
+  document.body.classList.add("reveal-ready");
+  if (!("IntersectionObserver" in window)) {
+    revealEls.forEach((item) => item.classList.add("is-visible"));
     return;
   }
 
-  const selectedFrameworks = FRAMEWORK_ORDER.filter((frameworkId) => state.compareFrameworks.has(frameworkId));
-  if (!selectedFrameworks.length) {
-    els.compareGrid.innerHTML = `
-      <div class="empty-state">
-        <h3>比較対象が選択されていません</h3>
-        <p>少なくとも1つのフレームワークを選択してください。</p>
-      </div>
-    `;
-    return;
-  }
-
-  els.compareGrid.innerHTML = selectedFrameworks
-    .map((frameworkId) => {
-      const framework = getFrameworkById(frameworkId);
-      const entry = getFrameworkEntry(component, frameworkId);
-      const snippet = isImplemented(entry.status)
-        ? entry.snippet
-        : `// ${framework.label} implementation is planned`;
-
-      const links = [
-        entry.docs ? `<a href="${entry.docs}" target="_blank" rel="noopener noreferrer">Docs</a>` : "",
-        entry.source ? `<a href="${entry.source}" target="_blank" rel="noopener noreferrer">Source</a>` : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
-
-      return `
-        <article class="compare-card">
-          <div class="compare-card__head">
-            <strong>${framework.label}</strong>
-            <span class="status status--${entry.status}">${statusLabelMap[entry.status]}</span>
-          </div>
-          <div class="compare-card__body">
-            <p class="compare-card__note">${escapeHtml(entry.note || "補足情報なし")}</p>
-            <pre class="code-block"><code>${escapeHtml(snippet)}</code></pre>
-            <div class="modal__links">${links || '<span class="tag">リンクなし</span>'}</div>
-          </div>
-        </article>
-      `;
-    })
-    .join("");
-}
-
-function openModal(componentId) {
-  const component = getComponentById(componentId);
-  if (!component) return;
-
-  state.modalComponentId = componentId;
-  const implementedFramework = FRAMEWORK_ORDER.find((frameworkId) =>
-    isImplemented(getFrameworkEntry(component, frameworkId).status)
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const delay = Number(entry.target.dataset.delay || 0);
+        setTimeout(() => entry.target.classList.add("is-visible"), delay);
+        io.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
   );
-  state.modalFrameworkId = implementedFramework ?? FRAMEWORK_ORDER[0];
 
-  renderModalBody();
-  els.detailModal.classList.add("is-open");
-  els.detailModal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
+  revealEls.forEach((item) => io.observe(item));
 }
 
-function closeModal() {
-  els.detailModal.classList.remove("is-open");
-  els.detailModal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-}
-
-function renderModalBody() {
-  const component = getComponentById(state.modalComponentId);
-  if (!component) return;
-
-  const frameworkId = state.modalFrameworkId ?? FRAMEWORK_ORDER[0];
-  const framework = getFrameworkById(frameworkId);
-  const entry = getFrameworkEntry(component, frameworkId);
-  const implementedCount = getImplementedCount(component);
-  const designSpec = getDesignSpec(component);
-  const snippet = isImplemented(entry.status)
-    ? entry.snippet
-    : `// ${framework.label} implementation is planned`;
-
-  els.modalTitle.textContent = component.name;
-  els.modalDescription.textContent = component.description;
-  els.modalFrameworkTabs.innerHTML = FRAMEWORK_ORDER.map((id) => {
-    const currentEntry = getFrameworkEntry(component, id);
-    const active = frameworkId === id;
-    const buttonClassName = active ? "tab-btn is-active" : "tab-btn";
-    const frameworkLabel = getFrameworkById(id).label;
-
-    return `
-      <button
-        type="button"
-        class="${buttonClassName}"
-        data-framework-id="${id}"
-        role="tab"
-        aria-selected="${active ? "true" : "false"}"
-      >
-        ${frameworkLabel}
-        <span class="status status--${currentEntry.status}">${statusLabelMap[currentEntry.status]}</span>
-      </button>
-    `;
-  }).join("");
-
-  els.modalMeta.innerHTML = `
-    <span class="tag">${escapeHtml(component.category)}</span>
-    <span class="tag">${implementedCount}/${FRAMEWORKS.length} implemented</span>
-    ${component.tags.map((tag) => `<span class="tag">#${escapeHtml(tag)}</span>`).join("")}
-  `;
-  els.modalPreview.innerHTML = buildPreview(component.preview);
-  els.modalCode.textContent = snippet;
-  if (els.modalDesignSummary) {
-    els.modalDesignSummary.innerHTML = `
-      <div class="design-grid">
-        <div class="design-item">
-          <span class="design-item__label">Token Count</span>
-          <span class="design-item__value">${designSpec.tokens.length}</span>
-        </div>
-        <div class="design-item">
-          <span class="design-item__label">State Model</span>
-          <span class="design-item__value">${escapeHtml(designSpec.states.join(", "))}</span>
-        </div>
-        <div class="design-item">
-          <span class="design-item__label">Anatomy</span>
-          <span class="design-item__value">${escapeHtml(designSpec.anatomy.join(", "))}</span>
-        </div>
-        <div class="design-item">
-          <span class="design-item__label">Accessibility</span>
-          <span class="design-item__value">${escapeHtml(
-            `${designSpec.accessibility.level} / keyboard ${designSpec.accessibility.keyboard ? "yes" : "no"}`
-          )}</span>
-        </div>
-      </div>
-    `;
-  }
-  if (els.modalDesignJson) {
-    els.modalDesignJson.textContent = JSON.stringify(
-      {
-        component: component.name,
-        category: component.category,
-        framework: {
-          id: framework.id,
-          label: framework.label,
-          status: entry.status,
-        },
-        design: designSpec,
-      },
-      null,
-      2
-    );
-  }
-
-  const links = [
-    entry.docs ? `<a href="${entry.docs}" target="_blank" rel="noopener noreferrer">公式ドキュメント</a>` : "",
-    entry.source ? `<a href="${entry.source}" target="_blank" rel="noopener noreferrer">GitHub</a>` : "",
-  ]
-    .filter(Boolean)
-    .join("");
-  els.modalLinks.innerHTML = links || '<span class="tag">このフレームワークの外部リンクは未登録です</span>';
-}
-
-async function copyModalCode() {
-  await copyTextFromElement(els.modalCode, els.copyCodeBtn);
-}
-
-async function copyDesignJson() {
-  await copyTextFromElement(els.modalDesignJson, els.copyDesignBtn);
-}
-
-function toggleFavorite(componentId) {
-  if (state.favorites.has(componentId)) {
-    state.favorites.delete(componentId);
-  } else {
-    state.favorites.add(componentId);
-  }
-  persistFavorites(state.favorites);
-}
-
-function getFrameworkById(frameworkId) {
-  return FRAMEWORKS.find((framework) => framework.id === frameworkId);
-}
-
-function getComponentById(componentId) {
-  return COMPONENTS.find((component) => component.id === componentId);
-}
-
-function getFrameworkEntry(component, frameworkId) {
-  const value = component.frameworks[frameworkId];
-  if (value) return value;
-  return {
-    status: "planned",
-    snippet: "// Planned",
-    docs: "",
-    source: "",
-    note: "未対応",
-  };
-}
-
-function getImplementedCount(component) {
-  return FRAMEWORK_ORDER.reduce((count, frameworkId) => {
-    const status = getFrameworkEntry(component, frameworkId).status;
-    return isImplemented(status) ? count + 1 : count;
-  }, 0);
-}
-
-function getCoverageStatus(component) {
-  const implementedCount = getImplementedCount(component);
-  if (implementedCount >= FRAMEWORKS.length) return "stable";
-  if (implementedCount >= Math.ceil(FRAMEWORKS.length / 2)) return "beta";
-  return "planned";
-}
-
-function getDesignSpec(component) {
-  const categoryBlueprintMap = {
-    Actions: {
-      baseTokens: ["color.action.primary", "radius.control.md", "motion.tap.fast"],
-      states: ["default", "hover", "active", "disabled", "focus-visible"],
-      anatomy: ["container", "label", "icon"],
-      interaction: "trigger",
-    },
-    Forms: {
-      baseTokens: ["color.input.border", "space.field.x", "typography.field.label"],
-      states: ["empty", "filled", "focus", "invalid", "disabled"],
-      anatomy: ["label", "control", "assistive-text"],
-      interaction: "input",
-    },
-    Feedback: {
-      baseTokens: ["color.feedback.info", "layer.overlay", "motion.enter.standard"],
-      states: ["open", "closing", "dismissed"],
-      anatomy: ["container", "message", "action"],
-      interaction: "system-feedback",
-    },
-    Navigation: {
-      baseTokens: ["color.nav.active", "space.nav.item", "radius.nav.item"],
-      states: ["default", "hover", "selected", "disabled"],
-      anatomy: ["list", "item", "indicator"],
-      interaction: "route-switch",
-    },
-    "Data Display": {
-      baseTokens: ["color.data.border", "space.row.gap", "typography.data.cell"],
-      states: ["default", "hover", "selected", "loading"],
-      anatomy: ["header", "row", "cell"],
-      interaction: "browse-data",
-    },
-  };
-
-  const blueprint =
-    categoryBlueprintMap[component.category] ?? categoryBlueprintMap["Data Display"];
-  const semanticTokens = component.tags.slice(0, 3).map((tag) => `semantic.${tag}`);
-  const uniqueTokens = Array.from(new Set([...blueprint.baseTokens, ...semanticTokens]));
-  const implementedCount = getImplementedCount(component);
-  const coverage = implementedCount / FRAMEWORKS.length;
-
-  return {
-    tokens: uniqueTokens,
-    states: blueprint.states,
-    anatomy: blueprint.anatomy,
-    interaction: blueprint.interaction,
-    accessibility: {
-      level: "WCAG 2.2 AA",
-      keyboard: true,
-      ariaPatterns: true,
-      reducedMotion: component.category === "Feedback" ? "recommended" : "supported",
-    },
-    quality: {
-      frameworkCoverage: `${implementedCount}/${FRAMEWORKS.length}`,
-      maturity: coverage >= 0.8 ? "high" : coverage >= 0.5 ? "medium" : "low",
-    },
-  };
-}
-
-function isImplemented(status) {
-  return status === "stable" || status === "beta";
-}
-
-function toggleSetValue(set, value) {
-  if (set.has(value)) {
-    set.delete(value);
-  } else {
-    set.add(value);
-  }
-}
-
-function loadFavorites() {
-  try {
-    const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function persistFavorites(favoritesSet) {
-  try {
-    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(Array.from(favoritesSet)));
-  } catch {
-    // Ignore storage errors in private mode or restricted environments.
-  }
-}
-
-async function copyTextFromElement(sourceEl, triggerEl) {
-  const text = sourceEl?.textContent;
-  if (!text || !triggerEl) return;
-
-  const originalText = triggerEl.textContent;
-  try {
-    if (!navigator.clipboard || !navigator.clipboard.writeText) {
-      throw new Error("Clipboard API unavailable");
+function initCopyInstall() {
+  if (!el.copyInstallBtn || !el.installCommand) return;
+  el.copyInstallBtn.addEventListener("click", async () => {
+    const text = el.installCommand.textContent?.trim() || "";
+    if (!text) return;
+    const original = el.copyInstallBtn.textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      fallbackCopyText(text);
     }
-    await navigator.clipboard.writeText(text);
-  } catch (error) {
-    const range = document.createRange();
-    range.selectNodeContents(sourceEl);
-    const selection = window.getSelection();
-    selection?.removeAllRanges();
-    selection?.addRange(range);
-    document.execCommand("copy");
-    selection?.removeAllRanges();
-  }
+    el.copyInstallBtn.textContent = "Copied";
+    setTimeout(() => {
+      el.copyInstallBtn.textContent = original;
+    }, 1200);
+  });
+}
 
-  triggerEl.textContent = "コピーしました";
-  window.setTimeout(() => {
-    triggerEl.textContent = originalText;
-  }, 1300);
+function initDemoTabs() {
+  if (!el.previewTabs || !el.previewStage || !el.previewCode) return;
+  const renderDemo = () => {
+    const demo = DEMOS[state.currentDemo];
+    if (!demo) return;
+    el.previewStage.innerHTML = demo.render();
+    el.previewCode.textContent = demo.code;
+    el.previewTabs.querySelectorAll(".preview-tab").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.demo === state.currentDemo);
+    });
+  };
+
+  el.previewTabs.addEventListener("click", (event) => {
+    const btn = event.target.closest("button[data-demo]");
+    if (!btn) return;
+    state.currentDemo = btn.dataset.demo;
+    renderDemo();
+  });
+
+  renderDemo();
+}
+
+function initCatalog() {
+  if (!el.componentFilters || !el.componentsGrid) return;
+  const categories = Object.keys(CATEGORY_LABELS);
+
+  el.componentFilters.innerHTML = categories
+    .map(
+      (key) =>
+        `<button class="chip ${key === state.currentCategory ? "is-active" : ""}" type="button" data-category="${key}">${CATEGORY_LABELS[key]}</button>`
+    )
+    .join("");
+
+  const renderGrid = () => {
+    const list =
+      state.currentCategory === "all"
+        ? COMPONENT_CATALOG
+        : COMPONENT_CATALOG.filter((item) => item.category === state.currentCategory);
+
+    el.componentsGrid.innerHTML = list
+      .map(
+        (item) => `
+      <article class="component-card">
+        <div class="component-card__preview">
+          <span class="preview-bar w"></span>
+          <span class="preview-bar m"></span>
+          <span class="preview-bar s"></span>
+        </div>
+        <div class="component-card__body">
+          <h3>${escapeHtml(item.name)}</h3>
+          <p>${escapeHtml(item.desc)}</p>
+          <div class="component-card__meta">
+            <span class="tag">${escapeHtml(CATEGORY_LABELS[item.category] || item.category)}</span>
+            <span class="tag">a11y ready</span>
+          </div>
+        </div>
+      </article>
+    `
+      )
+      .join("");
+  };
+
+  el.componentFilters.addEventListener("click", (event) => {
+    const btn = event.target.closest("button[data-category]");
+    if (!btn) return;
+    state.currentCategory = btn.dataset.category;
+    el.componentFilters.querySelectorAll(".chip").forEach((chip) => {
+      chip.classList.toggle("is-active", chip.dataset.category === state.currentCategory);
+    });
+    renderGrid();
+  });
+
+  renderGrid();
+}
+
+function initThemePlayground() {
+  if (!el.hueRange || !el.radiusRange || !el.themePreview || !el.modeSwitch) return;
+
+  const applyTheme = () => {
+    const hue = Number(el.hueRange.value);
+    const radius = Number(el.radiusRange.value);
+
+    document.documentElement.style.setProperty("--brand-h", String(hue));
+    document.documentElement.style.setProperty("--radius", `${radius}px`);
+
+    if (el.tokenBrand) el.tokenBrand.textContent = `hsl(${hue} 96% 65%)`;
+    if (el.tokenRadius) el.tokenRadius.textContent = `${radius}px`;
+  };
+
+  el.hueRange.addEventListener("input", applyTheme);
+  el.radiusRange.addEventListener("input", applyTheme);
+
+  el.modeSwitch.addEventListener("click", (event) => {
+    const btn = event.target.closest("button[data-mode]");
+    if (!btn) return;
+    state.mode = btn.dataset.mode;
+    el.themePreview.dataset.mode = state.mode;
+    el.modeSwitch.querySelectorAll(".mode-btn").forEach((modeBtn) => {
+      modeBtn.classList.toggle("is-active", modeBtn.dataset.mode === state.mode);
+    });
+    if (el.tokenSurface) {
+      el.tokenSurface.textContent = state.mode === "light" ? "light" : "dark";
+    }
+  });
+
+  applyTheme();
+}
+
+function fallbackCopyText(text) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  area.style.pointerEvents = "none";
+  document.body.appendChild(area);
+  area.focus();
+  area.select();
+  document.execCommand("copy");
+  document.body.removeChild(area);
 }
 
 function escapeHtml(value) {
@@ -1265,71 +354,4 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
-}
-
-function buildPreview(type) {
-  if (type === "button" || type === "icon-button") {
-    return `
-      <div class="preview preview--button">
-        <div class="preview__row">
-          <span class="preview__pill big"></span>
-          <span class="preview__pill small"></span>
-        </div>
-        <span class="preview__line mid"></span>
-      </div>
-    `;
-  }
-
-  if (type === "input" || type === "select" || type === "calendar") {
-    return `
-      <div class="preview preview--form">
-        <span class="preview__line wide"></span>
-        <span class="preview__line mid"></span>
-        <span class="preview__line short"></span>
-      </div>
-    `;
-  }
-
-  if (type === "table" || type === "grid") {
-    return `
-      <div class="preview preview--table">
-        <div class="preview__table">
-          <span class="preview__line wide"></span>
-          <span class="preview__line mid"></span>
-          <span class="preview__line wide"></span>
-        </div>
-      </div>
-    `;
-  }
-
-  if (type === "tabs" || type === "dropdown" || type === "accordion") {
-    return `
-      <div class="preview preview--nav">
-        <div class="preview__row">
-          <span class="preview__pill small"></span>
-          <span class="preview__pill small"></span>
-          <span class="preview__pill small"></span>
-        </div>
-        <span class="preview__line wide"></span>
-      </div>
-    `;
-  }
-
-  if (type === "toast" || type === "modal") {
-    return `
-      <div class="preview preview--feedback">
-        <span class="preview__line wide"></span>
-        <span class="preview__line mid"></span>
-        <span class="preview__line short"></span>
-      </div>
-    `;
-  }
-
-  return `
-    <div class="preview">
-      <span class="preview__line wide"></span>
-      <span class="preview__line mid"></span>
-      <span class="preview__line short"></span>
-    </div>
-  `;
 }
