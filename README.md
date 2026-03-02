@@ -1,51 +1,65 @@
-# 瀧澤屋根工業 - Takisawa Roof Website
+# Component Gallery Clone
 
-盛岡市の屋根工事専門店「瀧澤屋根工業」の公式ウェブサイト。
+`https://component.gallery/` のような体験を目指した、**UIコンポーネント検索・比較サイト**のMVPです。
 
-## 概要
+## 実装している機能
 
-屋根葺き替え・カバー工法・雨漏り修理・雪止め・雨樋の修理まで幅広く対応する屋根工事専門店のウェブサイトです。
+- コンポーネントカード一覧表示
+- キーワード検索
+- カテゴリフィルタ
+- フレームワークフィルタ（React / Vue / Svelte / Angular / Solid）
+- 並び順変更（名前順 / 実装数順 / カテゴリ順）
+- お気に入り登録（`localStorage` 保存）
+- 詳細モーダル
+  - フレームワーク別タブ
+  - 実装スニペット表示
+  - コードコピー
+  - 外部リンク（Docs / Source）
+- 比較ビュー
+  - 同一コンポーネントを複数フレームワークで横並び比較
 
 ## 技術スタック
 
 - HTML5
-- CSS3 (カスタムプロパティ、Grid、Flexbox)
+- CSS3
 - Vanilla JavaScript (ES6+)
-- Google Fonts (Noto Sans JP, Noto Serif JP)
-
-## 特徴
-
-- レスポンシブデザイン（モバイル・タブレット・デスクトップ対応）
-- スムーズスクロール
-- スクロールアニメーション（IntersectionObserver使用）
-- FAQ アコーディオン
-- お問い合わせフォーム
-- モバイルナビゲーション
-- バックトゥトップボタン
-- 固定電話ボタン（モバイル表示時）
 
 ## ファイル構成
 
-```
+```text
 /
-├── index.html          # メインHTML
+├── index.html
 ├── css/
-│   └── style.css       # スタイルシート
+│   └── style.css
 ├── js/
-│   └── main.js         # JavaScript
-└── README.md           # このファイル
+│   └── main.js
+└── README.md
 ```
 
-## ローカルでの確認
+## ローカル確認
 
-任意のHTTPサーバーで配信してください:
+任意のHTTPサーバーで配信してください。
 
 ```bash
-# Python 3を使う場合
 python3 -m http.server 8000
-
-# Node.jsのhttp-serverを使う場合
-npx http-server
 ```
 
-ブラウザで `http://localhost:8000` を開いてください。
+ブラウザで `http://localhost:8000` を開きます。
+
+## データの拡張方法
+
+`js/main.js` の `COMPONENTS` 配列に要素を追加すると、一覧・詳細・比較ビューへ自動反映されます。
+
+- `id`
+- `name`
+- `category`
+- `description`
+- `preview`
+- `tags`
+- `frameworks`（各フレームワークの `status`, `snippet`, `docs`, `source`, `note`）
+
+`status` は以下のいずれかを想定しています。
+
+- `stable`
+- `beta`
+- `planned`
