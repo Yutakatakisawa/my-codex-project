@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { RenderPage } from "@/renderer/RenderPage";
-import type { UIPage } from "@/types/uiSchema";
+import { exportToReactCode } from "@/engine/codeExporter";
+import type { UIPage, Section } from "@/types/uiSchema";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [page, setPage] = useState<UIPage | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showCode, setShowCode] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   async function handleGenerate() {
     if (!prompt.trim()) return;
@@ -35,6 +38,27 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleExportCode() {
+    if (!page) return;
+    setShowCode(true);
+  }
+
+  async function handleCopyCode() {
+    if (!page) return;
+    const code = exportToReactCode(page);
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  function handleReorder(from: number, to: number) {
+    if (!page || from === to) return;
+    const sections = [...page.sections];
+    const [removed] = sections.splice(from, 1);
+    sections.splice(to, 0, removed);
+    setPage({ ...page, sections });
   }
 
   return (
@@ -79,15 +103,73 @@ export default function Home() {
 
         {page && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-slate-900">
-              Live Preview
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-slate-900">
+                Live Preview
+              </h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleExportCode}
+                  className="px-4 py-2 text-sm bg-slate-200 hover:bg-slate-300 text-slate-800 font-medium rounded-lg transition-colors"
+                >
+                  Export React Code
+                </button>
+              </div>
+            </div>
             <div className="rounded-xl overflow-hidden border border-slate-200 bg-white shadow-sm">
-              <RenderPage page={page} />
+              <RenderPage page={page} onReorder={handleReorder} draggable />
             </div>
           </div>
         )}
       </main>
+
+      {showCode && page && (
+        <CodeModal
+          code={exportToReactCode(page)}
+          onClose={() => setShowCode(false)}
+          onCopy={handleCopyCode}
+          copied={copied}
+        />
+      )}
+    </div>
+  );
+}
+
+function CodeModal({
+  code,
+  onClose,
+  onCopy,
+  copied,
+}: {
+  code: string;
+  onClose: () => void;
+  onCopy: () => void;
+  copied: boolean;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+      <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col">
+        <div className="flex items-center justify-between p-4 border-b border-slate-200">
+          <h3 className="text-lg font-semibold text-slate-900">React Code Export</h3>
+          <div className="flex gap-2">
+            <button
+              onClick={onCopy}
+              className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-medium rounded-lg"
+            >
+              {copied ? "Copied!" : "Copy"}
+            </button>
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 text-sm font-medium rounded-lg"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+        <pre className="p-4 overflow-auto flex-1 text-sm bg-slate-900 text-slate-100 rounded-b-xl">
+          <code>{code}</code>
+        </pre>
+      </div>
     </div>
   );
 }
