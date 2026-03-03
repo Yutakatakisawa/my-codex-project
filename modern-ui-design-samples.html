@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIで生成するモダンUIデザイン | UIサンプルセクション</title>
+  <meta name="description" content="職人向けWeb制作サービス向けに、AIで生成するモダンUIデザインのサンプルを8枚掲載したLPセクション。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "Noto Sans JP", "system-ui", "sans-serif"]
+          },
+          boxShadow: {
+            glass: "0 24px 60px rgba(2, 6, 23, 0.55), inset 0 1px 0 rgba(255,255,255,0.22)",
+            soft: "0 10px 25px rgba(15, 23, 42, 0.35)"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(38rem 38rem at 8% -8%, rgba(56, 189, 248, 0.18), transparent 65%),
+        radial-gradient(28rem 28rem at 84% 0%, rgba(168, 85, 247, 0.2), transparent 70%),
+        radial-gradient(26rem 26rem at 50% 100%, rgba(14, 165, 233, 0.12), transparent 70%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(148, 163, 184, 0.12) 0.6px, transparent 0.6px);
+      background-size: 3px 3px;
+      opacity: 0.14;
+      z-index: -1;
+    }
+
+    .ui-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 380ms ease, border-color 260ms ease;
+    }
+
+    .ui-card:hover {
+      transform: translateY(-8px) scale(1.012);
+      box-shadow: 0 28px 56px rgba(15, 23, 42, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .ui-card::after {
+      content: "";
+      position: absolute;
+      top: -180%;
+      left: -38%;
+      width: 54%;
+      height: 320%;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0));
+      transform: rotate(16deg) translateX(-130%);
+      transition: transform 850ms ease;
+      pointer-events: none;
+    }
+
+    .ui-card:hover::after {
+      transform: rotate(16deg) translateX(410%);
+    }
+
+    .mock-shell {
+      border-radius: 1.75rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 14px 30px rgba(2, 6, 23, 0.46);
+    }
+
+    .floating-orb {
+      animation: floatY 5.8s ease-in-out infinite;
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#070B16] font-sans text-slate-100 antialiased">
+  <div class="pointer-events-none fixed inset-0 overflow-hidden">
+    <div class="floating-orb absolute -top-16 left-10 h-36 w-36 rounded-full bg-cyan-400/20 blur-3xl"></div>
+    <div class="floating-orb absolute right-8 top-28 h-44 w-44 rounded-full bg-violet-500/20 blur-3xl [animation-delay:1.2s]"></div>
+  </div>
+
+  <main class="relative px-4 py-14 sm:px-6 lg:px-12">
+    <section id="modern-ui-samples" class="mx-auto max-w-[1420px]">
+      <div class="rounded-3xl border border-white/15 bg-white/5 p-6 shadow-glass backdrop-blur-xl sm:p-10">
+        <div class="max-w-3xl">
+          <p class="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-300/40 bg-cyan-300/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">
+            AI Generated UI Samples
+          </p>
+          <h1 class="text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
+            AIで生成するモダンUIデザイン
+          </h1>
+          <p class="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+            職人ウェブ焚きさわでは
+            AIを活用して洗練されたモダンWebデザインを制作できます
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2 text-xs font-medium text-slate-200">
+            <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1">Glassmorphism</span>
+            <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1">Dark Mode UI</span>
+            <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1">Bento Grid</span>
+            <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1">Soft UI</span>
+            <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1">Modern Gradient</span>
+            <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1">Micro interactions</span>
+          </div>
+        </div>
+
+        <div class="mt-8 overflow-x-auto pb-4 md:overflow-visible">
+          <div class="grid min-w-[1320px] grid-cols-6 gap-4 md:min-w-0 md:grid-cols-2 md:gap-6">
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-cyan-300/70 md:p-6"
+              data-ui-card
+              data-category="屋根工事会社LP"
+              data-title="雨漏り修理"
+              data-description="緊急対応CTAと施工実績を1画面で伝える、信頼訴求型のコンバージョンLPデザイン。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-cyan-400/35 via-slate-900 to-slate-950 p-3">
+                    <div class="h-16 rounded-xl bg-white/15"></div>
+                    <div class="-mt-3 rounded-xl border border-white/20 bg-slate-900/75 p-2 shadow-soft">
+                      <div class="h-2 w-16 rounded bg-cyan-200/70"></div>
+                      <div class="mt-2 h-2 w-full rounded bg-white/20"></div>
+                      <div class="mt-1 h-2 w-4/5 rounded bg-white/15"></div>
+                    </div>
+                    <div class="mt-3 grid grid-cols-2 gap-2">
+                      <div class="h-10 rounded-lg bg-white/12"></div>
+                      <div class="h-10 rounded-lg bg-cyan-300/20"></div>
+                    </div>
+                    <div class="mt-3 h-9 rounded-xl border border-cyan-200/40 bg-cyan-300/15"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-cyan-200/90">屋根工事会社LP</p>
+              <h3 class="mt-2 text-lg font-bold text-white">雨漏り修理</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">緊急対応CTAと施工実績を1画面で伝える、信頼訴求型のコンバージョンLPデザイン。</p>
+            </button>
+
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-violet-300/70 md:p-6"
+              data-ui-card
+              data-category="屋根工事会社LP"
+              data-title="屋根リフォーム"
+              data-description="価格帯比較とビフォーアフターをBento配置で整理し、相談導線を最短化した構成。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-violet-500/35 via-indigo-900 to-slate-950 p-3">
+                    <div class="h-14 rounded-xl bg-white/15"></div>
+                    <div class="mt-3 grid grid-cols-2 gap-2">
+                      <div class="h-16 rounded-xl bg-violet-300/20"></div>
+                      <div class="h-16 rounded-xl bg-white/12"></div>
+                    </div>
+                    <div class="mt-3 h-9 rounded-xl border border-violet-200/40 bg-violet-300/15"></div>
+                    <div class="mt-3 h-8 rounded-lg bg-white/12"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-violet-200/90">屋根工事会社LP</p>
+              <h3 class="mt-2 text-lg font-bold text-white">屋根リフォーム</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">価格帯比較とビフォーアフターをBento配置で整理し、相談導線を最短化した構成。</p>
+            </button>
+
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-emerald-300/70 md:p-6"
+              data-ui-card
+              data-category="屋根工事会社LP"
+              data-title="屋根点検"
+              data-description="ドローン点検の流れをステップ表示し、無料診断への遷移率を高める情報設計。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-emerald-500/30 via-teal-900 to-slate-950 p-3">
+                    <div class="h-14 rounded-xl bg-white/15"></div>
+                    <div class="mt-3 space-y-2 rounded-xl border border-white/20 bg-slate-900/70 p-2">
+                      <div class="h-2 w-10 rounded bg-emerald-200/80"></div>
+                      <div class="h-2 w-full rounded bg-white/20"></div>
+                      <div class="h-2 w-3/4 rounded bg-white/15"></div>
+                    </div>
+                    <div class="mt-3 grid grid-cols-3 gap-2">
+                      <div class="h-8 rounded-lg bg-white/12"></div>
+                      <div class="h-8 rounded-lg bg-emerald-300/20"></div>
+                      <div class="h-8 rounded-lg bg-white/12"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-emerald-200/90">屋根工事会社LP</p>
+              <h3 class="mt-2 text-lg font-bold text-white">屋根点検</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">ドローン点検の流れをステップ表示し、無料診断への遷移率を高める情報設計。</p>
+            </button>
+
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-amber-300/70 md:p-6"
+              data-ui-card
+              data-category="外壁塗装会社LP"
+              data-title="外壁塗装"
+              data-description="カラーシミュレーションを主役にした視覚訴求で、見積もり依頼を自然に誘導。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-amber-400/35 via-orange-900 to-slate-950 p-3">
+                    <div class="h-14 rounded-xl bg-white/15"></div>
+                    <div class="mt-3 flex gap-2">
+                      <div class="h-7 w-7 rounded-full bg-amber-300/80"></div>
+                      <div class="h-7 w-7 rounded-full bg-rose-300/70"></div>
+                      <div class="h-7 w-7 rounded-full bg-cyan-300/70"></div>
+                    </div>
+                    <div class="mt-3 h-10 rounded-xl border border-amber-200/40 bg-amber-300/15"></div>
+                    <div class="mt-3 h-8 rounded-lg bg-white/12"></div>
+                    <div class="mt-2 h-8 rounded-lg bg-white/12"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-amber-200/90">外壁塗装会社LP</p>
+              <h3 class="mt-2 text-lg font-bold text-white">外壁塗装</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">カラーシミュレーションを主役にした視覚訴求で、見積もり依頼を自然に誘導。</p>
+            </button>
+
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-rose-300/70 md:p-6"
+              data-ui-card
+              data-category="外壁塗装会社LP"
+              data-title="外壁リフォーム"
+              data-description="断熱・耐久・保証をカード化し、比較検討ユーザーの不安を先回りで解消。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-rose-500/35 via-fuchsia-900 to-slate-950 p-3">
+                    <div class="h-14 rounded-xl bg-white/15"></div>
+                    <div class="mt-3 grid grid-cols-2 gap-2">
+                      <div class="h-11 rounded-xl bg-white/12"></div>
+                      <div class="h-11 rounded-xl bg-rose-300/20"></div>
+                      <div class="col-span-2 h-11 rounded-xl bg-white/12"></div>
+                    </div>
+                    <div class="mt-3 h-9 rounded-xl border border-rose-200/40 bg-rose-300/15"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-rose-200/90">外壁塗装会社LP</p>
+              <h3 class="mt-2 text-lg font-bold text-white">外壁リフォーム</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">断熱・耐久・保証をカード化し、比較検討ユーザーの不安を先回りで解消。</p>
+            </button>
+
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-orange-300/70 md:p-6"
+              data-ui-card
+              data-category="外壁塗装会社LP"
+              data-title="外壁メンテナンス"
+              data-description="定期メンテ計画をタイムラインで提示し、継続契約につながる構成。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-orange-500/35 via-amber-900 to-slate-950 p-3">
+                    <div class="h-14 rounded-xl bg-white/15"></div>
+                    <div class="mt-3 space-y-2">
+                      <div class="h-7 rounded-lg bg-white/12"></div>
+                      <div class="h-7 rounded-lg bg-orange-300/20"></div>
+                      <div class="h-7 rounded-lg bg-white/12"></div>
+                    </div>
+                    <div class="mt-3 h-9 rounded-xl border border-orange-200/40 bg-orange-300/15"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-orange-200/90">外壁塗装会社LP</p>
+              <h3 class="mt-2 text-lg font-bold text-white">外壁メンテナンス</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">定期メンテ計画をタイムラインで提示し、継続契約につながる構成。</p>
+            </button>
+
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-fuchsia-300/70 md:p-6"
+              data-ui-card
+              data-category="洋服屋EC"
+              data-title="ファッションEC"
+              data-description="新作ドロップとSNS導線を融合した、回遊性重視のモダンEC UI。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-fuchsia-500/35 via-purple-900 to-slate-950 p-3">
+                    <div class="h-14 rounded-xl bg-white/15"></div>
+                    <div class="mt-3 grid grid-cols-2 gap-2">
+                      <div class="h-14 rounded-xl bg-white/12"></div>
+                      <div class="h-14 rounded-xl bg-fuchsia-300/20"></div>
+                    </div>
+                    <div class="mt-3 h-9 rounded-xl border border-fuchsia-200/40 bg-fuchsia-300/15"></div>
+                    <div class="mt-3 h-7 rounded-lg bg-white/12"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-fuchsia-200/90">洋服屋EC</p>
+              <h3 class="mt-2 text-lg font-bold text-white">ファッションEC</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">新作ドロップとSNS導線を融合した、回遊性重視のモダンEC UI。</p>
+            </button>
+
+            <button
+              type="button"
+              class="ui-card group snap-start rounded-3xl border border-white/20 bg-white/10 p-4 text-left shadow-glass backdrop-blur-2xl focus:outline-none focus:ring-2 focus:ring-sky-300/70 md:p-6"
+              data-ui-card
+              data-category="洋服屋EC"
+              data-title="セレクトショップ"
+              data-description="世界観ビジュアルと在庫希少性バッジで、購入意欲を高める高級感UI。">
+              <div class="mb-5 flex justify-center" data-mock>
+                <div class="mock-shell relative h-[282px] w-[152px] border border-white/20 bg-slate-950/80 p-2">
+                  <div class="absolute left-1/2 top-2 h-5 w-16 -translate-x-1/2 rounded-full bg-black/70"></div>
+                  <div class="h-full overflow-hidden rounded-[1.3rem] border border-white/10 bg-gradient-to-b from-sky-500/30 via-blue-900 to-slate-950 p-3">
+                    <div class="h-16 rounded-xl bg-white/15"></div>
+                    <div class="mt-3 rounded-xl border border-white/20 bg-slate-900/70 p-2">
+                      <div class="h-2 w-10 rounded bg-sky-200/80"></div>
+                      <div class="mt-2 h-2 w-full rounded bg-white/20"></div>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between rounded-xl bg-white/12 p-2">
+                      <div class="h-2 w-12 rounded bg-white/20"></div>
+                      <div class="h-5 w-12 rounded-md bg-sky-300/30"></div>
+                    </div>
+                    <div class="mt-3 h-9 rounded-xl border border-sky-200/40 bg-sky-300/15"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs font-semibold tracking-[0.14em] text-sky-200/90">洋服屋EC</p>
+              <h3 class="mt-2 text-lg font-bold text-white">セレクトショップ</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-300">世界観ビジュアルと在庫希少性バッジで、購入意欲を高める高級感UI。</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div
+    id="previewModal"
+    class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-6 opacity-0 transition-opacity duration-300">
+    <div
+      data-modal-panel
+      class="w-full max-w-3xl scale-95 rounded-3xl border border-white/20 bg-slate-900/85 p-6 shadow-glass backdrop-blur-2xl transition-transform duration-300 md:p-8">
+      <div class="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <p id="modalCategory" class="text-xs font-semibold tracking-[0.14em] text-cyan-200"></p>
+          <h2 id="modalTitle" class="mt-1 text-2xl font-bold text-white"></h2>
+        </div>
+        <button
+          id="closeModal"
+          type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-slate-200 transition hover:bg-white/20"
+          aria-label="閉じる">
+          <span class="text-xl leading-none">&times;</span>
+        </button>
+      </div>
+      <div class="grid gap-6 md:grid-cols-[220px_1fr]">
+        <div class="flex justify-center rounded-2xl border border-white/15 bg-white/5 p-4" id="modalMock"></div>
+        <div class="space-y-4">
+          <p id="modalDescription" class="text-sm leading-relaxed text-slate-300"></p>
+          <div class="rounded-2xl border border-cyan-200/20 bg-cyan-400/5 p-4 text-xs leading-relaxed text-slate-300">
+            <p class="font-semibold text-cyan-200">実装トレンド</p>
+            <p class="mt-2">
+              Dark Mode / Glassmorphism / Soft Shadow / Rounded Components / Gradient Accent / Micro interactions をミックスし、
+              2025〜2026海外スタートアップ風の高級感あるUIトーンで構成しています。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var modal = document.getElementById("previewModal");
+      var modalPanel = modal.querySelector("[data-modal-panel]");
+      var modalTitle = document.getElementById("modalTitle");
+      var modalCategory = document.getElementById("modalCategory");
+      var modalDescription = document.getElementById("modalDescription");
+      var modalMock = document.getElementById("modalMock");
+      var closeModalButton = document.getElementById("closeModal");
+      var cards = document.querySelectorAll("[data-ui-card]");
+
+      function openModal(card) {
+        modalTitle.textContent = card.getAttribute("data-title") || "";
+        modalCategory.textContent = card.getAttribute("data-category") || "";
+        modalDescription.textContent = card.getAttribute("data-description") || "";
+
+        var mock = card.querySelector("[data-mock]");
+        modalMock.innerHTML = mock ? mock.innerHTML : "";
+
+        modal.classList.remove("opacity-0", "pointer-events-none");
+        modalPanel.classList.remove("scale-95");
+        document.body.classList.add("overflow-hidden");
+      }
+
+      function closeModal() {
+        modal.classList.add("opacity-0", "pointer-events-none");
+        modalPanel.classList.add("scale-95");
+        document.body.classList.remove("overflow-hidden");
+      }
+
+      cards.forEach(function (card) {
+        card.addEventListener("click", function () {
+          openModal(card);
+        });
+      });
+
+      closeModalButton.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !modal.classList.contains("pointer-events-none")) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
